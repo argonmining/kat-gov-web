@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import axios from 'axios';
+import { createProposal } from '../services/apiService';
 
 const SubmitProposal: React.FC = () => {
   const [type, setType] = useState('');
@@ -17,11 +17,11 @@ const SubmitProposal: React.FC = () => {
       type: type === 'Funding' ? 1 : type === 'Development' ? 2 : 3,
       approved: false,
       reviewed: false,
-      status: 1,
+      status: '1', // Convert status to a string
     };
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/proposals`, proposalData);
+      await createProposal(proposalData);
       alert('Proposal submitted successfully!');
     } catch (error) {
       console.error('Error submitting proposal:', error);

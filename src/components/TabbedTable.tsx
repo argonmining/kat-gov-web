@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Proposal } from '../types'; // Import the Proposal type
+import { Proposal, Status } from '../types'; // Import the Proposal type
+import { Link } from 'react-router-dom';
 
 interface TabbedTableProps {
   proposals: Proposal[];
+  statuses: Status[];
 }
 
-const TabbedTable: React.FC<TabbedTableProps> = ({ proposals }) => {
-  const [activeTab, setActiveTab] = useState('All Proposals');
+const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
+  const [activeTab, setActiveTab] = useState<number | null>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
-
-  const tabs = ['All Proposals', 'Submitted', 'Active', 'Completed'];
 
   const toggleRow = (id: number) => {
     setExpandedRow(expandedRow === id ? null : id);
@@ -18,13 +18,13 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals }) => {
   return (
     <div>
       <div className="flex border-b">
-        {tabs.map((tab) => (
+        {statuses.map((status) => (
           <button
-            key={tab}
-            className={`px-4 py-2 ${activeTab === tab ? 'border-b-2 border-primary' : ''}`}
-            onClick={() => setActiveTab(tab)}
+            key={status.id}
+            className={`px-4 py-2 ${activeTab === status.id ? 'border-b-2 border-primary' : ''}`}
+            onClick={() => setActiveTab(status.id ?? null)} // Ensure status.id is not undefined
           >
-            {tab}
+            {status.name}
           </button>
         ))}
       </div>
@@ -39,14 +39,18 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals }) => {
         </thead>
         <tbody>
           {proposals
-            .filter((proposal) => activeTab === 'All Proposals' || proposal.status === activeTab)
+            .filter((proposal) => activeTab === null || proposal.status === activeTab.toString())
             .map((proposal) => (
               <React.Fragment key={proposal.id}>
                 <tr
                   className="hover:bg-gray-200 cursor-pointer border-b"
                   onClick={() => toggleRow(proposal.id!)}
                 >
-                  <td className="py-3 px-4">{proposal.title}</td>
+                  <td className="py-3 px-4">
+                    <Link to={`/proposals/${proposal.id}`} className="text-blue-500 hover:underline">
+                      {proposal.title}
+                    </Link>
+                  </td>
                   <td className="py-3 px-4">{proposal.status}</td>
                   <td className="py-3 px-4">{proposal.amount}</td>
                   <td className="py-3 px-4">{proposal.percentage}</td>
@@ -55,7 +59,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals }) => {
                   <tr className="bg-gray-50">
                     <td colSpan={4} className="py-4 px-4">
                       <div className="p-4 bg-white shadow rounded-lg">
-                        {proposal.details}
+                        <strong>Subtitle:</strong> {proposal.subtitle}
                       </div>
                     </td>
                   </tr>

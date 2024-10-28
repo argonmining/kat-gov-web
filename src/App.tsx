@@ -6,6 +6,7 @@ import ProposalDetail from './pages/ProposalDetail';
 import Elections from './pages/Elections';
 import ElectionDetail from './pages/ElectionDetail';
 import Treasury from './pages/Treasury';
+import SubmitProposal from './pages/SubmitProposal';
 
 const App: React.FC = () => (
   <Router>
@@ -16,6 +17,7 @@ const App: React.FC = () => (
       <Route path="/elections" element={<Elections />} />
       <Route path="/elections/:id" element={<ElectionDetail />} />
       <Route path="/treasury" element={<Treasury />} />
+      <Route path="/submit-proposal" element={<SubmitProposal />} />
     </Routes>
   </Router>
 );

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Proposal, Election, Status } from '../types'; // Adjust the import path as needed
 
 const api = axios.create({
-  baseURL: 'http://46.38.245.230:7878/api',
+  baseURL: 'https://govapi.nachowyborski.xyz/api',
 });
 
 // Proposals

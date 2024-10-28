@@ -1,20 +1,22 @@
 import React from 'react';
 
-interface ElectionCardProps {
-  position: string;
-  candidates: string[];
-  votingPeriod: string;
-}
+const ElectionCard: React.FC = () => {
+  // Mock data for demonstration
+  const elections = [
+    { id: 1, title: 'Election 1', date: '2023-10-01' },
+    { id: 2, title: 'Election 2', date: '2023-11-01' },
+  ];
 
-const ElectionCard: React.FC<ElectionCardProps> = ({ position, candidates, votingPeriod }) => {
   return (
-    <div className="border p-4 rounded shadow-md">
-      <h2 className="text-xl font-bold">{position}</h2>
-      <p className="text-gray-700">Candidates: {candidates.join(', ')}</p>
-      <p className="text-sm text-gray-500">Voting Period: {votingPeriod}</p>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {elections.map((election) => (
+        <div key={election.id} className="bg-white p-4 shadow-md">
+          <h3 className="font-bold">{election.title}</h3>
+          <p>{election.date}</p>
+        </div>
+      ))}
     </div>
   );
 };
 
 export default ElectionCard;
-

@@ -1,20 +1,18 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
-const Navbar: React.FC = () => {
-  return (
-    <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex justify-between">
-        <div className="text-white">
-          <Link href="/">Kat Gov</Link>
-        </div>
-        <div className="flex space-x-4">
-          <Link href="/proposals" className="text-white">Proposals</Link>
-          <Link href="/elections" className="text-white">Elections</Link>
-        </div>
+const Navbar: React.FC = () => (
+  <nav className="bg-primary p-4">
+    <div className="container mx-auto flex justify-between">
+      <div className="text-dark font-bold">Kat Gov</div>
+      <div className="flex space-x-4">
+        <Link to="/" className="text-dark">Home</Link>
+        <Link to="/proposals" className="text-dark">Proposals</Link>
+        <Link to="/elections" className="text-dark">Elections</Link>
+        <Link to="/treasury" className="text-dark">Treasury</Link>
       </div>
-    </nav>
-  );
-};
+    </div>
+  </nav>
+);
 
 export default Navbar;

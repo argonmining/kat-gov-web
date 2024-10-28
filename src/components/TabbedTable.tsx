@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
+import { Proposal } from '../types'; // Import the Proposal type
 
-const TabbedTable: React.FC = () => {
+interface TabbedTableProps {
+  proposals: Proposal[];
+}
+
+const TabbedTable: React.FC<TabbedTableProps> = ({ proposals }) => {
   const [activeTab, setActiveTab] = useState('All Proposals');
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   const tabs = ['All Proposals', 'Submitted', 'Active', 'Completed'];
-
-  const proposals = [
-    { id: 1, title: 'Proposal 1', status: 'Active', amount: '1000', percentage: '10%', details: 'Detailed information about Proposal 1' },
-    { id: 2, title: 'Proposal 2', status: 'Submitted', amount: '2000', percentage: '20%', details: 'Detailed information about Proposal 2' },
-    { id: 3, title: 'Proposal 3', status: 'Completed', amount: '3000', percentage: '30%', details: 'Detailed information about Proposal 3' },
-  ];
 
   const toggleRow = (id: number) => {
     setExpandedRow(expandedRow === id ? null : id);
@@ -45,7 +44,7 @@ const TabbedTable: React.FC = () => {
               <React.Fragment key={proposal.id}>
                 <tr
                   className="hover:bg-gray-200 cursor-pointer border-b"
-                  onClick={() => toggleRow(proposal.id)}
+                  onClick={() => toggleRow(proposal.id!)}
                 >
                   <td className="py-3 px-4">{proposal.title}</td>
                   <td className="py-3 px-4">{proposal.status}</td>

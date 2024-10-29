@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { createDraftProposal, getProposalById, updateProposalById } from '../services/apiService';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import QRCode from 'react-qr-code';
+import axios from 'axios';
+
+interface ProposalType {
+  id: number;
+  name: string;
+  simple: boolean;
+}
 
 const SubmitProposal: React.FC = () => {
   const [type, setType] = useState('');
@@ -15,6 +22,20 @@ const SubmitProposal: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [proposalTypes, setProposalTypes] = useState<ProposalType[]>([]);
+
+  useEffect(() => {
+    const fetchProposalTypes = async () => {
+      try {
+        const response = await axios.get('https://govapi.nachowyborski.xyz/api/proposal-types');
+        setProposalTypes(response.data);
+      } catch (error) {
+        console.error('Error fetching proposal types:', error);
+      }
+    };
+
+    fetchProposalTypes();
+  }, []);
 
   const handleGenerateProposal = async () => {
     try {
@@ -45,7 +66,7 @@ const SubmitProposal: React.FC = () => {
       title,
       subtitle,
       body,
-      type: type === 'Funding' ? 1 : type === 'Development' ? 2 : 3,
+      type: proposalTypes.find(pt => pt.name === type)?.id || 0,
       approved: false,
       reviewed: false,
       status: 2,
@@ -104,10 +125,11 @@ const SubmitProposal: React.FC = () => {
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Type</label>
                     <select value={type} onChange={(e) => setType(e.target.value)} className="w-full p-2 border rounded" required>
-                      <option value="DRAFT">DRAFT</option>
-                      <option value="Funding">Funding</option>
-                      <option value="Development">Development</option>
-                      <option value="Governance">Governance</option>
+                      {proposalTypes.map((proposalType) => (
+                        <option key={proposalType.id} value={proposalType.name}>
+                          {proposalType.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="mb-4">

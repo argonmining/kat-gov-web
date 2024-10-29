@@ -41,10 +41,10 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
       <table className="min-w-full bg-white mt-4 shadow-md rounded-lg">
         <thead>
           <tr className="bg-gray-100">
-            <th className="py-3 px-4">Title</th>
-            <th className="py-3 px-4">Status</th>
-            <th className="py-3 px-4">Amount</th>
-            <th className="py-3 px-4">% of Total</th>
+            <th className="py-3 px-4 text-left">Title</th>
+            <th className="py-3 px-4 text-left">Status</th>
+            <th className="py-3 px-4 text-left">Amount</th>
+            <th className="py-3 px-4 text-left">% of Total</th>
           </tr>
         </thead>
         <tbody>

@@ -6,7 +6,7 @@ import ElectionCard from '../components/ElectionCard';
 const Management: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'proposals' | 'elections'>('proposals');
+  const [activeTab, setActiveTab] = useState<'proposals' | 'elections' | 'treasury'>('proposals');
 
   const handleLogin = () => {
     const managementPassword = 'KatGov!2024';
@@ -36,28 +36,45 @@ const Management: React.FC = () => {
               >
                 Elections
               </button>
+              <button
+                className={`px-4 py-2 ${activeTab === 'treasury' ? 'border-b-2 border-primary' : ''}`}
+                onClick={() => setActiveTab('treasury')}
+              >
+                Treasury
+              </button>
             </div>
-            {activeTab === 'proposals' ? (
+            {activeTab === 'proposals' && (
               <div>
-                <div className="flex mb-4">
-                  <button className="bg-primary text-white px-4 py-2 rounded">Approve</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">Reject</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">Schedule</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">Burn</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">DropGas</button>
+                <div className="flex justify-between mb-4">
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Approve</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Reject</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Schedule</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Burn</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">DropGas</button>
                 </div>
                 <TabbedTable proposals={[]} statuses={[]} /> {/* Pass actual data here */}
               </div>
-            ) : (
+            )}
+            {activeTab === 'elections' && (
               <div>
-                <div className="flex mb-4">
-                  <button className="bg-primary text-white px-4 py-2 rounded">New</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">Review</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">Schedule</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">Burn</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded">DropGas</button>
+                <div className="flex justify-between mb-4">
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">New</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Review</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Schedule</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Burn</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">DropGas</button>
                 </div>
                 <ElectionCard /> {/* Pass actual data here */}
+              </div>
+            )}
+            {activeTab === 'treasury' && (
+              <div>
+                <div className="flex justify-between mb-4">
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Manage Wallets</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Add Comment</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Edit Comment</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Delete Comment</button>
+                </div>
               </div>
             )}
           </div>

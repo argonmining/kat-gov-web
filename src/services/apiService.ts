@@ -55,3 +55,28 @@ export const updateStatus = async (statusId: number, status: Status): Promise<St
 export const deleteStatus = async (statusId: number): Promise<void> => {
   await api.delete(`/statuses/${statusId}`);
 };
+
+// New function to create a draft proposal
+export const createDraftProposal = async (): Promise<{ proposalId: number; walletAddress: string }> => {
+  const response = await api.post('/proposals', {
+    title: "A draft proposal, please replace with the title of your proposal.",
+    subtitle: "Please replace this text with a short description of your proposal.",
+    type: 4,
+    approved: false,
+    reviewed: false,
+    status: 1
+  });
+  return response.data;
+};
+
+// New function to get a proposal by ID
+export const getProposalById = async (proposalId: number): Promise<Proposal> => {
+  const response = await api.get(`/proposals/${proposalId}`);
+  return response.data;
+};
+
+// New function to update a proposal
+export const updateProposalById = async (proposalId: number, proposal: Proposal): Promise<Proposal> => {
+  const response = await api.put(`/proposals/${proposalId}`, proposal);
+  return response.data;
+};

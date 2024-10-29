@@ -7,7 +7,7 @@ export interface Proposal {
   type?: number;
   approved?: boolean;
   reviewed?: boolean;
-  status?: string; // Ensure this is a string
+  status?: number; // Change this to a number
   submitdate?: string;
   openvote?: string;
   snapshot?: string;

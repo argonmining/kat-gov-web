@@ -39,7 +39,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
         </thead>
         <tbody>
           {proposals
-            .filter((proposal) => activeTab === null || proposal.status === activeTab.toString())
+            .filter((proposal) => activeTab === null || proposal.status === activeTab)
             .map((proposal) => (
               <React.Fragment key={proposal.id}>
                 <tr

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import TabbedTable from '../components/TabbedTable';
 import { getProposals, getStatuses } from '../services/apiService';
-import { Proposal, Status } from '../types'; // Import the Proposal type
+import { Proposal, Status } from '../types';
 
 const Proposals: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);

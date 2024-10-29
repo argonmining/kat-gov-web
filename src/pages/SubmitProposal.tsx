@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import { createDraftProposal, getProposalById, updateProposalById } from '../services/apiService';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import QRCode from 'react-qr-code';
 
 const SubmitProposal: React.FC = () => {
   const [type, setType] = useState('');
@@ -65,14 +66,29 @@ const SubmitProposal: React.FC = () => {
     }
   };
 
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(walletAddress).then(() => {
+      alert('Wallet address copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy wallet address:', err);
+    });
+  };
+
   return (
     <div>
       <Navbar />
       <div className="container mx-auto mt-8">
         {showSuccess ? (
-          <div>
-            <h2 className="text-2xl font-bold">Proposal Submitted Successfully!</h2>
-            <p>Your proposal is not submitted until you send 100 KDAO to the wallet address: {walletAddress}</p>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">Proposal Submitted Successfully!</h2>
+            <p className="mb-4">Your proposal is not submitted until you send 100 KDAO to the wallet address below:</p>
+            <div className="mb-4">
+              <QRCode value={walletAddress} size={128} />
+            </div>
+            <p className="font-bold mb-4">{walletAddress}</p>
+            <button onClick={handleCopyToClipboard} className="bg-primary text-white px-4 py-2 rounded">
+              Copy Wallet Address
+            </button>
           </div>
         ) : (
           <div>

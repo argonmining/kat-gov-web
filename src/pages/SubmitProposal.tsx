@@ -82,7 +82,7 @@ const SubmitProposal: React.FC = () => {
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Proposal Submitted Successfully!</h2>
             <p className="mb-4">Your proposal is not submitted until you send 100 KDAO to the wallet address below:</p>
-            <div className="mb-4">
+            <div className="flex justify-center mb-4">
               <QRCode value={walletAddress} size={128} />
             </div>
             <p className="font-bold mb-4">{walletAddress}</p>

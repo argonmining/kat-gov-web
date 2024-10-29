@@ -11,6 +11,7 @@ const Management: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'proposals' | 'elections' | 'treasury'>('proposals');
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [statuses, setStatuses] = useState<Status[]>([]);
+  const [activeAction, setActiveAction] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -33,6 +34,90 @@ const Management: React.FC = () => {
       setIsAuthenticated(true);
     } else {
       alert('Incorrect password');
+    }
+  };
+
+  const renderActionContent = () => {
+    switch (activeAction) {
+      case 'approve':
+      case 'reject':
+        return (
+          <div className="mb-4">
+            <select className="border p-2 mr-2">
+              {proposals
+                .filter(p => p.status === 2 || p.status === 3)
+                .map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.title}
+                  </option>
+                ))}
+            </select>
+            <select className="border p-2 mr-2">
+              {statuses.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+            <button className="bg-primary text-white px-4 py-2 rounded">
+              {activeAction === 'approve' ? 'Approve' : 'Reject'}
+            </button>
+          </div>
+        );
+      case 'schedule':
+        return (
+          <div className="mb-4">
+            <select className="border p-2 mr-2">
+              {proposals
+                .filter(p => p.status === 4 || p.status === 5)
+                .map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.title}
+                  </option>
+                ))}
+            </select>
+            <input type="datetime-local" className="border p-2 mr-2" />
+            <button className="bg-primary text-white px-4 py-2 rounded">Schedule</button>
+          </div>
+        );
+      case 'burn':
+        return (
+          <div className="mb-4">
+            <select className="border p-2 mr-2">
+              {proposals.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.title}
+                </option>
+              ))}
+            </select>
+            <select className="border p-2 mr-2">
+              <option>Burn Proposal Wallet</option>
+              <option>Burn YES Wallet</option>
+              <option>Burn NO Wallet</option>
+            </select>
+            <button className="bg-primary text-white px-4 py-2 rounded">Burn</button>
+          </div>
+        );
+      case 'dropGas':
+        return (
+          <div className="mb-4">
+            <select className="border p-2 mr-2">
+              {proposals.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.title}
+                </option>
+              ))}
+            </select>
+            <select className="border p-2 mr-2">
+              <option>Drop to Proposal Wallet</option>
+              <option>Drop to YES Wallet</option>
+              <option>Drop to NO Wallet</option>
+            </select>
+            <button className="bg-primary text-white px-4 py-2 rounded">DropGas</button>
+          </div>
+        );
+      default:
+        return null;
     }
   };
 
@@ -65,12 +150,38 @@ const Management: React.FC = () => {
             {activeTab === 'proposals' && (
               <div>
                 <div className="flex justify-between mb-4">
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Approve</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Reject</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Schedule</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Burn</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">DropGas</button>
+                  <button
+                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
+                    onClick={() => setActiveAction('approve')}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
+                    onClick={() => setActiveAction('reject')}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
+                    onClick={() => setActiveAction('schedule')}
+                  >
+                    Schedule
+                  </button>
+                  <button
+                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
+                    onClick={() => setActiveAction('burn')}
+                  >
+                    Burn
+                  </button>
+                  <button
+                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
+                    onClick={() => setActiveAction('dropGas')}
+                  >
+                    DropGas
+                  </button>
                 </div>
+                {renderActionContent()}
                 <TabbedTable proposals={proposals} statuses={statuses} />
               </div>
             )}

@@ -43,8 +43,8 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
           <tr className="bg-gray-100">
             <th className="py-3 px-4 text-left">Title</th>
             <th className="py-3 px-4 text-left">Status</th>
-            <th className="py-3 px-4 text-left">Amount</th>
-            <th className="py-3 px-4 text-left">% of Total</th>
+            <th className="py-3 px-4 text-left">Submitted Date</th>
+            <th className="py-3 px-4 text-left">Approved</th>
           </tr>
         </thead>
         <tbody>
@@ -59,9 +59,9 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                     {proposal.title}
                   </Link>
                 </td>
-                <td className="py-3 px-4">{proposal.status}</td>
-                <td className="py-3 px-4">{proposal.amount}</td>
-                <td className="py-3 px-4">{proposal.percentage}</td>
+                <td className="py-3 px-4">{proposal.status ?? 'Pending'}</td>
+                <td className="py-3 px-4">{proposal.submitdate ?? 'N/A'}</td>
+                <td className="py-3 px-4">{proposal.approved ? 'Yes' : 'No'}</td>
               </tr>
               {expandedRow === proposal.id && (
                 <tr className="bg-gray-50">

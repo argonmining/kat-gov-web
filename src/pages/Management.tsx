@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import TabbedTable from '../components/TabbedTable';
 import ElectionCard from '../components/ElectionCard';
+import { getProposals, getStatuses } from '../services/apiService';
+import { Proposal, Status } from '../types';
 
 const Management: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<'proposals' | 'elections' | 'treasury'>('proposals');
+  const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [statuses, setStatuses] = useState<Status[]>([]);
+
+  useEffect(() => {
+    const fetchProposals = async () => {
+      const data = await getProposals();
+      setProposals(data);
+    };
+
+    const fetchStatuses = async () => {
+      const data = await getStatuses();
+      setStatuses(data);
+    };
+
+    fetchProposals();
+    fetchStatuses();
+  }, []);
 
   const handleLogin = () => {
     const managementPassword = 'KatGov!2024';
@@ -52,7 +71,7 @@ const Management: React.FC = () => {
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Burn</button>
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">DropGas</button>
                 </div>
-                <TabbedTable proposals={[]} statuses={[]} /> {/* Pass actual data here */}
+                <TabbedTable proposals={proposals} statuses={statuses} />
               </div>
             )}
             {activeTab === 'elections' && (
@@ -64,7 +83,7 @@ const Management: React.FC = () => {
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Burn</button>
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">DropGas</button>
                 </div>
-                <ElectionCard /> {/* Pass actual data here */}
+                <ElectionCard />
               </div>
             )}
             {activeTab === 'treasury' && (

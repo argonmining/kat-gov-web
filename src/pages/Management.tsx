@@ -92,7 +92,7 @@ const Management: React.FC = () => {
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Manage Wallets</button>
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Add Comment</button>
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Edit Comment</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Delete Comment</button>
+                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Update Transactions</button>
                   <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Balance Check</button>
                 </div>
               </div>

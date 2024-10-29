@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import { useParams } from 'react-router-dom';
-import { getProposals } from '../services/apiService';
+import { getProposalById } from '../services/apiService';
 import { Proposal } from '../types';
 import ReactMarkdown from 'react-markdown';
 
@@ -12,9 +12,11 @@ const ProposalDetail: React.FC = () => {
   useEffect(() => {
     const fetchProposalDetail = async () => {
       if (id) {
-        const data = await getProposals({ id });
-        if (data.length > 0) {
-          setProposal(data[0]);
+        try {
+          const proposalData = await getProposalById(Number(id));
+          setProposal(proposalData);
+        } catch (error) {
+          console.error('Error fetching proposal:', error);
         }
       }
     };

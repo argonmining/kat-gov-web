@@ -25,50 +25,37 @@ const ProposalDetail: React.FC = () => {
   }, [id]);
 
   if (!proposal) {
-    return <div>Loading...</div>;
+    return <div className="text-white">Loading...</div>;
   }
 
-  // Placeholder data
-  const placeholderData = {
-    discussionSchedule: "TBD",
-    votingSchedule: "TBD",
-    snapshotTimestamp: "TBD",
-    votingProgress: 50, // Example percentage
-    tokensBurned: 1000, // Example number
-    uniqueVoters: 100, // Example number
-    voteOutcome: "Pending" // Example outcome
-  };
-
   return (
-    <div>
+    <div className="bg-gray-900 text-white min-h-screen">
       <Navbar />
-      <div className="container mx-auto mt-8">
-        <h2 className="text-2xl font-bold">{proposal.title}</h2>
-        <h3 className="text-xl mt-2">{proposal.subtitle}</h3>
-        <div className="mt-4">
-          <ReactMarkdown>{proposal.body}</ReactMarkdown>
-        </div>
-        <div className="mt-8">
-          <h4 className="font-bold">Status: {proposal.status}</h4>
-          <p>Discussion Schedule: {placeholderData.discussionSchedule}</p>
-          <p>Voting Schedule: {placeholderData.votingSchedule}</p>
-          <p>Snapshot Timestamp: {placeholderData.snapshotTimestamp}</p>
-        </div>
-        <div className="mt-4">
-          <h4 className="font-bold">Voting Progress</h4>
-          <div className="w-full bg-gray-200 rounded-full h-4">
-            <div
-              className="bg-blue-600 h-4 rounded-full"
-              style={{ width: `${placeholderData.votingProgress}%` }}
-            ></div>
+      <div className="container mx-auto mt-8 p-4">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold mb-2">{proposal.title}</h2>
+          <h3 className="text-xl mb-4">{proposal.subtitle}</h3>
+          <div className="mb-6">
+            <ReactMarkdown>{proposal.body}</ReactMarkdown>
           </div>
-          <p>{placeholderData.votingProgress}% of votes cast</p>
-        </div>
-        <div className="mt-4">
-          <h4 className="font-bold">Statistics</h4>
-          <p>Total Tokens Burned: {placeholderData.tokensBurned}</p>
-          <p>Unique Voters: {placeholderData.uniqueVoters}</p>
-          {placeholderData.voteOutcome && <p>Outcome: {placeholderData.voteOutcome}</p>}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <h4 className="font-bold">Status: {proposal.status}</h4>
+              <p>Discussion Schedule: TBD</p>
+              <p>Voting Schedule: TBD</p>
+              <p>Snapshot Timestamp: TBD</p>
+            </div>
+            <div className="bg-gray-700 p-4 rounded-lg">
+              <h4 className="font-bold">Voting Progress</h4>
+              <div className="w-full bg-gray-600 rounded-full h-4">
+                <div
+                  className="bg-blue-500 h-4 rounded-full"
+                  style={{ width: '50%' }}
+                ></div>
+              </div>
+              <p>50% of votes cast</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -24,10 +24,10 @@ const Proposals: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-gray-900 text-white min-h-screen">
       <Navbar />
-      <div className="container mx-auto mt-8">
-        <h2 className="text-2xl font-bold">Proposals</h2>
+      <div className="container mx-auto mt-8 p-4">
+        <h2 className="text-3xl font-bold mb-4">Proposals</h2>
         <TabbedTable proposals={proposals} statuses={statuses} />
       </div>
     </div>

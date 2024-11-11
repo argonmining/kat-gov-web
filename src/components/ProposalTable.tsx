@@ -1,29 +1,20 @@
 import React from 'react';
 
 const ProposalTable: React.FC = () => {
-  // Mock data for demonstration
   const proposals = [
     { id: 1, title: 'Proposal 1', status: 'Active' },
     { id: 2, title: 'Proposal 2', status: 'Pending' },
   ];
 
   return (
-    <table className="min-w-full bg-white">
-      <thead>
-        <tr>
-          <th className="py-2">Title</th>
-          <th className="py-2">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {proposals.map((proposal) => (
-          <tr key={proposal.id} className="hover:bg-gray-100">
-            <td className="py-2">{proposal.title}</td>
-            <td className="py-2">{proposal.status}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {proposals.map((proposal) => (
+        <div key={proposal.id} className="bg-gray-800 p-4 rounded-lg shadow-lg hover:bg-gray-700 transition">
+          <h3 className="text-xl font-bold">{proposal.title}</h3>
+          <p>Status: {proposal.status}</p>
+        </div>
+      ))}
+    </div>
   );
 };
 

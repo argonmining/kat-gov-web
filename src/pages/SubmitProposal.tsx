@@ -96,9 +96,9 @@ const SubmitProposal: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-900 text-white min-h-screen">
       <Navbar />
-      <div className="container mx-auto mt-8">
+      <div className="container mx-auto mt-8 p-4">
         {showSuccess ? (
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Proposal Submitted Successfully!</h2>
@@ -107,14 +107,14 @@ const SubmitProposal: React.FC = () => {
               <QRCode value={walletAddress} size={128} />
             </div>
             <p className="font-bold mb-4">{walletAddress}</p>
-            <button onClick={handleCopyToClipboard} className="bg-primary text-white px-4 py-2 rounded">
+            <button onClick={handleCopyToClipboard} className="bg-blue-500 text-white px-4 py-2 rounded">
               Copy Wallet Address
             </button>
           </div>
         ) : (
           <div>
             {!isGenerated ? (
-              <button onClick={handleGenerateProposal} className="bg-primary text-white px-4 py-2 rounded">
+              <button onClick={handleGenerateProposal} className="bg-blue-500 text-white px-4 py-2 rounded">
                 Generate Proposal
               </button>
             ) : (
@@ -124,7 +124,7 @@ const SubmitProposal: React.FC = () => {
                 <form onSubmit={handleSubmit} className="mt-4">
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Type</label>
-                    <select value={type} onChange={(e) => setType(e.target.value)} className="w-full p-2 border rounded" required>
+                    <select value={type} onChange={(e) => setType(e.target.value)} className="w-full p-2 border rounded bg-gray-800 text-white" required>
                       {proposalTypes.map((proposalType) => (
                         <option key={proposalType.id} value={proposalType.name}>
                           {proposalType.name}
@@ -134,11 +134,11 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Title</label>
-                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded" required />
+                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded bg-gray-800 text-white" required />
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Subtitle</label>
-                    <input type="text" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className="w-full p-2 border rounded" required />
+                    <input type="text" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className="w-full p-2 border rounded bg-gray-800 text-white" required />
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Proposal Body</label>
@@ -149,7 +149,7 @@ const SubmitProposal: React.FC = () => {
                       onChange={({ text }) => setBody(text)}
                     />
                   </div>
-                  <button type="submit" className="bg-primary text-white px-4 py-2 rounded" disabled={isSubmitting}>
+                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={isSubmitting}>
                     Submit
                   </button>
                 </form>

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useDarkMode } from '../context/DarkModeContext';
 
 const TreasuryTabs: React.FC = () => {
+  const { isDarkMode } = useDarkMode();
   const [activeTab, setActiveTab] = useState(1);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
@@ -42,42 +44,40 @@ const TreasuryTabs: React.FC = () => {
           </button>
         ))}
       </div>
-      <div className="mt-4">
-        {wallets.map((wallet) => (
-          activeTab === wallet.id && (
-            <table key={wallet.id} className="min-w-full bg-white shadow-md rounded-lg">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="py-3 px-4">Amount</th>
-                  <th className="py-3 px-4">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {wallet.transactions.map((transaction) => (
-                  <React.Fragment key={transaction.id}>
-                    <tr
-                      className="hover:bg-gray-200 cursor-pointer border-b"
-                      onClick={() => toggleRow(transaction.id)}
-                    >
-                      <td className="py-3 px-4">{transaction.amount}</td>
-                      <td className="py-3 px-4">{transaction.date}</td>
+      {wallets.map((wallet) => (
+        activeTab === wallet.id && (
+          <table key={wallet.id} className={`min-w-full ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-md rounded-lg`}>
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="py-3 px-4">Amount</th>
+                <th className="py-3 px-4">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {wallet.transactions.map((transaction) => (
+                <React.Fragment key={transaction.id}>
+                  <tr
+                    className="hover:bg-gray-200 cursor-pointer border-b"
+                    onClick={() => toggleRow(transaction.id)}
+                  >
+                    <td className="py-3 px-4">{transaction.amount}</td>
+                    <td className="py-3 px-4">{transaction.date}</td>
+                  </tr>
+                  {expandedRow === transaction.id && (
+                    <tr className="bg-gray-50">
+                      <td colSpan={2} className="py-4 px-4">
+                        <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow rounded-lg`}>
+                          {transaction.details}
+                        </div>
+                      </td>
                     </tr>
-                    {expandedRow === transaction.id && (
-                      <tr className="bg-gray-50">
-                        <td colSpan={2} className="py-4 px-4">
-                          <div className="p-4 bg-white shadow rounded-lg">
-                            {transaction.details}
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          )
-        ))}
-      </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        )
+      ))}
     </div>
   );
 };

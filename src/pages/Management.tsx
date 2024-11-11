@@ -4,8 +4,10 @@ import TabbedTable from '../components/TabbedTable';
 import ElectionCard from '../components/ElectionCard';
 import { getProposals, getStatuses } from '../services/apiService';
 import { Proposal, Status } from '../types';
+import { useDarkMode } from '../context/DarkModeContext';
 
 const Management: React.FC = () => {
+  const { isDarkMode } = useDarkMode();
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<'proposals' | 'elections' | 'treasury'>('proposals');
@@ -68,15 +70,12 @@ const Management: React.FC = () => {
         return (
           <div className="mb-4">
             <select className="border p-2 mr-2">
-              {proposals
-                .filter(p => p.status === 4 || p.status === 5)
-                .map(p => (
-                  <option key={p.id} value={p.id}>
-                    {p.title}
-                  </option>
-                ))}
+              {proposals.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.title}
+                </option>
+              ))}
             </select>
-            <input type="datetime-local" className="border p-2 mr-2" />
             <button className="bg-primary text-white px-4 py-2 rounded">Schedule</button>
           </div>
         );
@@ -89,11 +88,6 @@ const Management: React.FC = () => {
                   {p.title}
                 </option>
               ))}
-            </select>
-            <select className="border p-2 mr-2">
-              <option>Burn Proposal Wallet</option>
-              <option>Burn YES Wallet</option>
-              <option>Burn NO Wallet</option>
             </select>
             <button className="bg-primary text-white px-4 py-2 rounded">Burn</button>
           </div>
@@ -122,7 +116,7 @@ const Management: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
       <Navbar />
       <div className="container mx-auto mt-8">
         {isAuthenticated ? (

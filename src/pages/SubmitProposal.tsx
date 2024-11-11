@@ -5,6 +5,7 @@ import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import QRCode from 'react-qr-code';
 import axios from 'axios';
+import { useDarkMode } from '../context/DarkModeContext';
 
 interface ProposalType {
   id: number;
@@ -13,6 +14,7 @@ interface ProposalType {
 }
 
 const SubmitProposal: React.FC = () => {
+  const { isDarkMode } = useDarkMode();
   const [type, setType] = useState('');
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
@@ -96,7 +98,7 @@ const SubmitProposal: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen">
+    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
       <Navbar />
       <div className="container mx-auto mt-8 p-4">
         {showSuccess ? (
@@ -124,7 +126,7 @@ const SubmitProposal: React.FC = () => {
                 <form onSubmit={handleSubmit} className="mt-4">
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Type</label>
-                    <select value={type} onChange={(e) => setType(e.target.value)} className="w-full p-2 border rounded bg-gray-800 text-white" required>
+                    <select value={type} onChange={(e) => setType(e.target.value)} className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} required>
                       {proposalTypes.map((proposalType) => (
                         <option key={proposalType.id} value={proposalType.name}>
                           {proposalType.name}
@@ -134,11 +136,11 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Title</label>
-                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded bg-gray-800 text-white" required />
+                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} required />
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Subtitle</label>
-                    <input type="text" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className="w-full p-2 border rounded bg-gray-800 text-white" required />
+                    <input type="text" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} required />
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Proposal Body</label>

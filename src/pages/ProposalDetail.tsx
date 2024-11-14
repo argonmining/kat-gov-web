@@ -10,6 +10,8 @@ const ProposalDetail: React.FC = () => {
   const { isDarkMode } = useDarkMode();
   const { id } = useParams<{ id: string }>();
   const [proposal, setProposal] = useState<Proposal | null>(null);
+  const [showVoteYesPopup, setShowVoteYesPopup] = useState(false);
+  const [showVoteNoPopup, setShowVoteNoPopup] = useState(false);
 
   useEffect(() => {
     const fetchProposalDetail = async () => {
@@ -52,13 +54,59 @@ const ProposalDetail: React.FC = () => {
             <p>0% of votes cast</p>
           </div>
         </div>
-        <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}>
+        <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg mb-8`}>
           <h2 className="text-3xl font-bold mb-2">{proposal.title}</h2>
           <h3 className="text-xl mb-4">{proposal.subtitle}</h3>
           <div className="mb-6">
             <ReactMarkdown className="proposal-markdown">{proposal.body}</ReactMarkdown>
           </div>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg shadow-lg`}>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowVoteNoPopup(true)}
+            >
+              Vote No
+            </button>
+          </div>
+          <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg shadow-lg`}>
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowVoteYesPopup(true)}
+            >
+              Vote Yes
+            </button>
+          </div>
+        </div>
+        {showVoteNoPopup && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}>
+              <h3 className="text-xl font-bold mb-4">How to Vote No</h3>
+              <p>Instructions on how to vote no...</p>
+              <button
+                className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+                onClick={() => setShowVoteNoPopup(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        {showVoteYesPopup && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}>
+              <h3 className="text-xl font-bold mb-4">How to Vote Yes</h3>
+              <p>Instructions on how to vote yes...</p>
+              <button
+                className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
+                onClick={() => setShowVoteYesPopup(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

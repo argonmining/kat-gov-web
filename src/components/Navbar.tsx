@@ -7,14 +7,14 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={`p-4 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="font-bold hover:underline">Kat Gov</Link>
+      <div className="container mx-auto flex justify-start items-center">
+        <Link to="/" className="font-bold hover:underline mr-8">Kat Gov</Link>
         <div className="flex space-x-4">
           <Link to="/proposals" className="hover:underline">Proposals</Link>
           <Link to="/elections" className="hover:underline">Elections</Link>
           <Link to="/treasury" className="hover:underline">Treasury</Link>
         </div>
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 ml-auto">
           <Link to="/submit-proposal" className="bg-primary text-white px-4 py-2 rounded">
             Submit Proposal
           </Link>

@@ -15,9 +15,14 @@ const Navbar: React.FC = () => {
           <Link to="/elections" className="hover:underline">Elections</Link>
           <Link to="/treasury" className="hover:underline">Treasury</Link>
         </div>
-        <button onClick={toggleDarkMode} className="bg-blue-500 text-white px-4 py-2 rounded">
-          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-        </button>
+        <div className="flex space-x-4">
+          <Link to="/submit-proposal" className="bg-blue-500 text-white px-4 py-2 rounded">
+            Submit Proposal
+          </Link>
+          <button onClick={toggleDarkMode} className="bg-blue-500 text-white px-4 py-2 rounded">
+            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div>
       </div>
     </nav>
   );

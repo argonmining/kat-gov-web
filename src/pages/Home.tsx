@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   const { isDarkMode } = useDarkMode();
 
   return (
-    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <Navbar />
       <div className="container mx-auto mt-8">
         <h1 className="text-4xl font-bold text-center">Welcome to Kat Gov</h1>

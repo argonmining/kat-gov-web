@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     <nav className={`p-4 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="font-bold hover:underline">Kat Gov</Link>
-        <div className="flex space-x-4 ml-auto">
+        <div className="flex space-x-4">
           <Link to="/proposals" className="hover:underline">Proposals</Link>
           <Link to="/elections" className="hover:underline">Elections</Link>
           <Link to="/treasury" className="hover:underline">Treasury</Link>

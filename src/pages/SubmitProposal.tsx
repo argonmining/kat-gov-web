@@ -116,7 +116,7 @@ const SubmitProposal: React.FC = () => {
         ) : (
           <div>
             {!isGenerated ? (
-              <button onClick={handleGenerateProposal} className="bg-blue-500 text-white px-4 py-2 rounded">
+              <button onClick={handleGenerateProposal} className="bg-primary text-white px-4 py-2 rounded">
                 Generate Proposal
               </button>
             ) : (

@@ -16,10 +16,10 @@ const Navbar: React.FC = () => {
           <Link to="/treasury" className="hover:underline">Treasury</Link>
         </div>
         <div className="flex space-x-4">
-          <Link to="/submit-proposal" className="primary text-white px-4 py-2 rounded">
+          <Link to="/submit-proposal" className="bg-primary text-white px-4 py-2 rounded">
             Submit Proposal
           </Link>
-          <button onClick={toggleDarkMode} className="primary text-white px-4 py-2 rounded">
+          <button onClick={toggleDarkMode} className="bg-primary text-white px-4 py-2 rounded">
             {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
         </div>

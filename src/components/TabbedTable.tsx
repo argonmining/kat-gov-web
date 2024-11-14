@@ -62,7 +62,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                       {proposal.title}
                     </Link>
                   </td>
-                  <td className="py-3 px-4">{proposal.status ?? 'Pending'}</td>
+                  <td className="py-3 px-4">{statuses.find(status => status.id === proposal.status)?.name || 'Pending'}</td>
                   <td className="py-3 px-4">{proposal.submitdate ?? 'N/A'}</td>
                   <td className="py-3 px-4">{proposal.approved ? 'Yes' : 'No'}</td>
                 </tr>

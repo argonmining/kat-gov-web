@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Proposal, Election, Status } from '../types'; // Adjust the import path as needed
+import { Proposal, ProposalUpdate, Election, Status } from '../types'; // Adjust the import path as needed
 
 const api = axios.create({
   baseURL: 'https://govapi.nachowyborski.xyz/api',
@@ -76,7 +76,7 @@ export const getProposalById = async (proposalId: number): Promise<Proposal> => 
 };
 
 // New function to update a proposal
-export const updateProposalById = async (proposalId: number, proposal: Proposal): Promise<Proposal> => {
-  const response = await api.put(`/proposals/${proposalId}`, proposal);
+export const updateProposalById = async (id: number, data: ProposalUpdate) => {
+  const response = await api.put(`/proposals/${id}`, data);
   return response.data;
 };

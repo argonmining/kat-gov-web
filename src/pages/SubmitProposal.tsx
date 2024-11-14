@@ -51,6 +51,8 @@ const SubmitProposal: React.FC = () => {
       setBody(proposal.body || '');
       setType('DRAFT');
       setIsGenerated(true);
+
+      await updateProposalById(proposalId, { status: 1 });
     } catch (error) {
       console.error('Error generating proposal:', error);
       alert('Failed to generate proposal.');
@@ -72,6 +74,7 @@ const SubmitProposal: React.FC = () => {
       approved: false,
       reviewed: false,
       status: 2,
+      submitDate: new Date().toISOString(),
     };
 
     try {

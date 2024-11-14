@@ -7,7 +7,7 @@ export interface Proposal {
   type?: number;
   approved?: boolean;
   reviewed?: boolean;
-  status?: number; // Change this to a number
+  status?: number;
   submitdate?: string;
   openvote?: string;
   snapshot?: string;
@@ -16,6 +16,9 @@ export interface Proposal {
   percentage?: string;
   details?: string;
 }
+
+// Define ProposalUpdate as a partial type of Proposal
+export type ProposalUpdate = Partial<Proposal>;
 
 export interface Election {
   id?: number;

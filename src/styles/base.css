@@ -22,7 +22,7 @@
   
   .content-container {
     @apply container mx-auto px-4 sm:px-6 lg:px-8 py-8 
-    max-w-5xl w-full animate-slideUp space-y-8;
+    max-w-7xl w-full animate-slideUp space-y-8;
   }
 
   .container-padding {

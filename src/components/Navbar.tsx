@@ -4,7 +4,19 @@ import { useDarkMode } from '../context/DarkModeContext';
 
 const Navbar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const projectName = import.meta.env.VITE_GOV_PROJECT_NAME || 'Governance';
+  const projectName = import.meta.env?.VITE_GOV_PROJECT_NAME || 'Governance';
+
+  console.log('Environment:', {
+    env: import.meta.env,
+    projectName: import.meta.env.VITE_GOV_PROJECT_NAME,
+    govToken: import.meta.env.VITE_GOV_TOKEN_TICKER
+  });
+
+  // Ensure we have access to env variables
+  if (typeof import.meta.env === 'undefined') {
+    console.warn('Environment variables not loaded');
+    return null;
+  }
 
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">

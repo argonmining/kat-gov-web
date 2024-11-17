@@ -60,17 +60,17 @@ const ProposalDetail: React.FC = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg flex justify-center">
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              className="bg-red-500 text-white px-4 py-2 rounded w-3/5 hover:bg-red-600 transition-colors"
               onClick={() => setShowVoteNoPopup(true)}
             >
               Vote No
             </button>
           </div>
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg flex justify-center">
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded"
+              className="bg-green-500 text-white px-4 py-2 rounded w-3/5 hover:bg-green-600 transition-colors"
               onClick={() => setShowVoteYesPopup(true)}
             >
               Vote Yes

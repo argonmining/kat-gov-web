@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar';
 import { createDraftProposal, getProposalById, updateProposalById } from '../services/apiService';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import '../styles/markdownEditor.css';
 import QRCode from 'react-qr-code';
 import axios from 'axios';
 
@@ -162,14 +163,27 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Proposal Body</label>
-                    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+                    <div className="rounded-lg overflow-hidden">
                       <MarkdownEditor
                         value={body}
                         style={{ height: '200px' }}
                         renderHTML={(text) => text}
                         onChange={({ text }) => setBody(text)}
-                        className="dark:bg-gray-800 dark:text-white"
                         view={{ menu: true, md: true, html: false }}
+                        config={{
+                          view: {
+                            menu: true,
+                            md: true,
+                            html: false,
+                          },
+                          canView: {
+                            menu: true,
+                            md: true,
+                            html: false,
+                            fullScreen: false,
+                            hideMenu: false,
+                          },
+                        }}
                       />
                     </div>
                   </div>

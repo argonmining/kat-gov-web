@@ -4,7 +4,7 @@ import { useDarkMode } from '../context/DarkModeContext';
 
 const Navbar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const projectName = import.meta.env.VITE_GOV_PROJECT_NAME;
+  const projectName = (typeof import.meta.env !== 'undefined' && import.meta.env.VITE_GOV_PROJECT_NAME) || 'Governance';
 
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">

@@ -42,7 +42,13 @@ const Management: React.FC = () => {
     }
 
     const hashedPassword = SHA256(password).toString();
-    const storedHash = import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH;
+    const storedHash = (typeof import.meta.env !== 'undefined' && import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH) || '';
+
+    if (!storedHash) {
+      console.error('Management password hash not found in environment variables');
+      alert('Configuration error. Please contact administrator.');
+      return;
+    }
 
     console.log('Environment Debug:', {
       hashedInput: hashedPassword,

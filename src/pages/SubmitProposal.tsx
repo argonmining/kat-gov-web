@@ -139,7 +139,13 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Title</label>
-                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} required />
+                    <input 
+                      type="text" 
+                      value={title} 
+                      onChange={(e) => setTitle(e.target.value)} 
+                      className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-black dark:text-white" 
+                      required 
+                    />
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Subtitle</label>
@@ -152,6 +158,7 @@ const SubmitProposal: React.FC = () => {
                       style={{ height: '200px' }}
                       renderHTML={(text) => text}
                       onChange={({ text }) => setBody(text)}
+                      className="dark:bg-gray-800 dark:text-white"
                     />
                   </div>
                   <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={isSubmitting}>

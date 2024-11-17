@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { useDarkMode } from '../context/DarkModeContext';
 
 const TreasuryTabs: React.FC = () => {
-  const { isDarkMode } = useDarkMode();
   const [activeTab, setActiveTab] = useState(1);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
@@ -32,12 +30,16 @@ const TreasuryTabs: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex border-b">
+    <div className="bg-white dark:bg-gray-900 transition-colors duration-200">
+      <div className="flex border-b dark:border-gray-700">
         {wallets.map((wallet) => (
           <button
             key={wallet.id}
-            className={`px-4 py-2 ${activeTab === wallet.id ? 'border-b-2 border-primary' : ''}`}
+            className={`px-4 py-2 ${
+              activeTab === wallet.id 
+                ? 'border-b-2 border-primary text-primary' 
+                : 'text-gray-600 dark:text-gray-300'
+            }`}
             onClick={() => setActiveTab(wallet.id)}
           >
             {wallet.address}
@@ -46,27 +48,27 @@ const TreasuryTabs: React.FC = () => {
       </div>
       {wallets.map((wallet) => (
         activeTab === wallet.id && (
-          <table key={wallet.id} className={`min-w-full ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-md rounded-lg`}>
+          <table key={wallet.id} className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="py-3 px-4">Amount</th>
-                <th className="py-3 px-4">Date</th>
+              <tr className="bg-gray-50 dark:bg-gray-700">
+                <th className="py-3 px-4 text-left text-gray-900 dark:text-white">Amount</th>
+                <th className="py-3 px-4 text-left text-gray-900 dark:text-white">Date</th>
               </tr>
             </thead>
             <tbody>
               {wallet.transactions.map((transaction) => (
                 <React.Fragment key={transaction.id}>
                   <tr
-                    className="hover:bg-gray-200 cursor-pointer border-b"
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b dark:border-gray-600"
                     onClick={() => toggleRow(transaction.id)}
                   >
-                    <td className="py-3 px-4">{transaction.amount}</td>
-                    <td className="py-3 px-4">{transaction.date}</td>
+                    <td className="py-3 px-4 text-gray-900 dark:text-white">{transaction.amount}</td>
+                    <td className="py-3 px-4 text-gray-900 dark:text-white">{transaction.date}</td>
                   </tr>
                   {expandedRow === transaction.id && (
-                    <tr className="bg-gray-50">
+                    <tr className="bg-gray-50 dark:bg-gray-700">
                       <td colSpan={2} className="py-4 px-4">
-                        <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow rounded-lg`}>
+                        <div className="p-4 bg-white dark:bg-gray-800 shadow rounded-lg text-gray-900 dark:text-white">
                           {transaction.details}
                         </div>
                       </td>

@@ -4,10 +4,8 @@ import { useParams } from 'react-router-dom';
 import { getProposalById } from '../services/apiService';
 import { Proposal } from '../types';
 import ReactMarkdown from 'react-markdown';
-import { useDarkMode } from '../context/DarkModeContext';
 
 const ProposalDetail: React.FC = () => {
-  const { isDarkMode } = useDarkMode();
   const { id } = useParams<{ id: string }>();
   const [proposal, setProposal] = useState<Proposal | null>(null);
   const [showVoteYesPopup, setShowVoteYesPopup] = useState(false);
@@ -33,17 +31,17 @@ const ProposalDetail: React.FC = () => {
   }
 
   return (
-    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
       <Navbar />
       <div className="container mx-auto mt-8 p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg shadow-lg`}>
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
             <h4 className="font-bold">Status: {proposal.status}</h4>
             <p>Discussion Schedule: TBD</p>
             <p>Voting Schedule: TBD</p>
             <p>Snapshot Timestamp: TBD</p>
           </div>
-          <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg shadow-lg`}>
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
             <h4 className="font-bold">Voting Progress</h4>
             <div className="w-full bg-gray-600 rounded-full h-4">
               <div
@@ -54,7 +52,7 @@ const ProposalDetail: React.FC = () => {
             <p>0% of votes cast</p>
           </div>
         </div>
-        <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg mb-8`}>
+        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-8">
           <h2 className="text-3xl font-bold mb-2">{proposal.title}</h2>
           <h3 className="text-xl mb-4">{proposal.subtitle}</h3>
           <div className="mb-6">
@@ -62,7 +60,7 @@ const ProposalDetail: React.FC = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg shadow-lg`}>
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
             <button
               className="bg-red-500 text-white px-4 py-2 rounded"
               onClick={() => setShowVoteNoPopup(true)}
@@ -70,7 +68,7 @@ const ProposalDetail: React.FC = () => {
               Vote No
             </button>
           </div>
-          <div className={`p-4 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'} rounded-lg shadow-lg`}>
+          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
             <button
               className="bg-green-500 text-white px-4 py-2 rounded"
               onClick={() => setShowVoteYesPopup(true)}
@@ -81,7 +79,7 @@ const ProposalDetail: React.FC = () => {
         </div>
         {showVoteNoPopup && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}>
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">How to Vote No</h3>
               <p>Instructions on how to vote no...</p>
               <button
@@ -95,7 +93,7 @@ const ProposalDetail: React.FC = () => {
         )}
         {showVoteYesPopup && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className={`p-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}>
+            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
               <h3 className="text-xl font-bold mb-4">How to Vote Yes</h3>
               <p>Instructions on how to vote yes...</p>
               <button

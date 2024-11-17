@@ -4,12 +4,16 @@ import { useDarkMode } from '../context/DarkModeContext';
 
 const Navbar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const projectName = import.meta.env?.VITE_GOV_PROJECT_NAME || 'Governance';
+  
+  // Safely access environment variables with fallbacks
+  const env = import.meta.env || {};
+  const projectName = env.VITE_GOV_PROJECT_NAME || 'Governance';
+  const govToken = env.VITE_GOV_TOKEN_TICKER || 'TOKEN';
 
   console.log('Environment:', {
-    env: import.meta.env,
-    projectName: import.meta.env.VITE_GOV_PROJECT_NAME,
-    govToken: import.meta.env.VITE_GOV_TOKEN_TICKER
+    env,
+    projectName,
+    govToken
   });
 
   // Ensure we have access to env variables

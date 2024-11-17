@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-8">
             <Link 
               to="/submit-proposal" 
               className="button-primary hidden md:block"

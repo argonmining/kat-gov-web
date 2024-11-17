@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar';
 import { createDraftProposal, getProposalById, updateProposalById } from '../services/apiService';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import '../styles/markdownEditor.css';
 import QRCode from 'react-qr-code';
 import axios from 'axios';
 

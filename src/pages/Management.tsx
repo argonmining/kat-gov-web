@@ -44,6 +44,13 @@ const Management: React.FC = () => {
     const hashedPassword = SHA256(password).toString();
     const storedHash = import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH;
 
+    console.log('Login attempt:', {
+      password,
+      hashedPassword,
+      storedHash,
+      match: hashedPassword === storedHash
+    });
+
     if (hashedPassword === storedHash) {
       setIsAuthenticated(true);
       setLoginAttempts(0);

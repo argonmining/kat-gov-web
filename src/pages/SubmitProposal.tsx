@@ -106,7 +106,7 @@ const SubmitProposal: React.FC = () => {
           <div className="card p-8 text-center max-w-2xl mx-auto">
             <h2 className="section-title mb-4">Proposal Submitted Successfully!</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Your proposal submission will not be reviewed until you send 100 KDAO to the wallet address below:
+              Your proposal submission will not be reviewed until you send 100 ${import.meta.env.GOV_TOKEN_TICKER} to the wallet address below:
             </p>
             <div className="flex justify-center mb-6">
               <QRCode value={walletAddress} size={128} />
@@ -135,10 +135,10 @@ const SubmitProposal: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="form-label">Type</label>
-                    <select 
-                      value={type} 
-                      onChange={(e) => setType(e.target.value)} 
-                      className="select-field" 
+                    <select
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                      className="select-field"
                       required
                     >
                       {proposalTypes.map((proposalType) => (
@@ -150,22 +150,22 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div>
                     <label className="form-label">Title</label>
-                    <input 
-                      type="text" 
-                      value={title} 
-                      onChange={(e) => setTitle(e.target.value)} 
-                      className="input-field" 
-                      required 
+                    <input
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="input-field"
+                      required
                     />
                   </div>
                   <div>
                     <label className="form-label">Subtitle</label>
-                    <input 
-                      type="text" 
-                      value={subtitle} 
-                      onChange={(e) => setSubtitle(e.target.value)} 
-                      className="input-field" 
-                      required 
+                    <input
+                      type="text"
+                      value={subtitle}
+                      onChange={(e) => setSubtitle(e.target.value)}
+                      className="input-field"
+                      required
                     />
                   </div>
                   <div>

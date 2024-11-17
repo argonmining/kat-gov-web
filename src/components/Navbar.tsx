@@ -4,6 +4,7 @@ import { useDarkMode } from '../context/DarkModeContext';
 
 const Navbar: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const projectName = import.meta.env.GOV_PROJECT_NAME || 'Governance';
 
   return (
     <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
@@ -11,7 +12,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link to="/" className="text-xl font-bold text-primary hover:opacity-80 transition-opacity">
-              Kat Gov
+              {projectName}
             </Link>
             <div className="hidden md:flex space-x-2">
               <Link to="/proposals" className="nav-link">Proposals</Link>

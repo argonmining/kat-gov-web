@@ -13,14 +13,14 @@ const Navbar: React.FC = () => {
             <Link to="/" className="text-xl font-bold text-primary hover:opacity-80 transition-opacity">
               Kat Gov
             </Link>
-            <div className="hidden md:flex space-x-12">
+            <div className="hidden md:flex space-x-6">
               <Link to="/proposals" className="nav-link">Proposals</Link>
               <Link to="/elections" className="nav-link">Elections</Link>
               <Link to="/treasury" className="nav-link">Treasury</Link>
             </div>
           </div>
 
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4">
             <Link 
               to="/submit-proposal" 
               className="button-primary hidden md:block"

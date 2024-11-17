@@ -22,9 +22,9 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
   return (
     <div className="space-y-4 animate-fadeIn">
       {/* Tab Navigation */}
-      <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex flex-wrap border-b border-gray-200 dark:border-gray-700">
         <button
-          className={`px-6 py-3 text-sm font-medium rounded-t-lg transition-all duration-200
+          className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-200 -mb-px
             ${activeTab === null 
               ? 'bg-primary text-white' 
               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
@@ -35,7 +35,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
         {statuses.map((status) => (
           <button
             key={status.id}
-            className={`px-6 py-3 text-sm font-medium rounded-t-lg transition-all duration-200
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-200 -mb-px
               ${activeTab === status.id 
                 ? 'bg-primary text-white' 
                 : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}

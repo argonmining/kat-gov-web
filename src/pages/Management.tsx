@@ -44,18 +44,20 @@ const Management: React.FC = () => {
     const hashedPassword = SHA256(password).toString();
     const storedHash = import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH;
 
-    console.log('Login attempt:', {
-      password,
-      hashedPassword,
+    console.log('Environment Debug:', {
+      hashedInput: hashedPassword,
       storedHash,
-      match: hashedPassword === storedHash
+      envVars: {
+        projectName: import.meta.env.VITE_GOV_PROJECT_NAME,
+        tokenTicker: import.meta.env.VITE_GOV_TOKEN_TICKER,
+        passwordHash: import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH
+      }
     });
 
     if (hashedPassword === storedHash) {
       setIsAuthenticated(true);
       setLoginAttempts(0);
-      // Store auth state with expiration
-      const expirationTime = Date.now() + (30 * 60 * 1000); // 30 minutes
+      const expirationTime = Date.now() + (30 * 60 * 1000);
       sessionStorage.setItem('mgmt_auth', '1');
       sessionStorage.setItem('mgmt_auth_expiry', expirationTime.toString());
     } else {

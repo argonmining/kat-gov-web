@@ -4,7 +4,12 @@
 
 @layer base {
   body {
-    @apply antialiased text-gray-900 dark:text-white bg-white dark:bg-gray-900;
+    @apply antialiased text-gray-900 dark:text-white bg-white dark:bg-gray-900 m-0
+    font-sans;
+  }
+
+  code {
+    @apply font-mono;
   }
 }
 
@@ -14,10 +19,10 @@
     @apply min-h-screen bg-white dark:bg-gray-900 text-black 
     dark:text-white animate-fadeIn flex flex-col items-center w-full;
   }
-
+  
   .content-container {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 
-    animate-slideUp space-y-8;
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 py-8 
+    max-w-5xl w-full animate-slideUp space-y-8;
   }
 
   .container-padding {
@@ -79,6 +84,11 @@
     bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 
     focus:ring-primary focus:border-transparent transition-all duration-300;
   }
+
+  .proposal-markdown {
+    @apply max-w-full mx-auto p-5 bg-surface-light dark:bg-surface-dark 
+    rounded-lg shadow-md;
+  }
 }
 
 /* Custom scrollbar */
@@ -101,5 +111,30 @@
 }
 
 .dark .rc-md-editor {
-  @apply bg-gray-800 text-white;
+  --md-bg: theme('colors.gray.800');
+  --md-border: theme('colors.gray.700');
+  --md-text: theme('colors.white');
+  --md-hover: theme('colors.gray.700');
+  
+  background-color: var(--md-bg) !important;
+  border-color: var(--md-border) !important;
+}
+
+.dark .rc-md-editor .rc-md-navigation,
+.dark .rc-md-editor .editor-container,
+.dark .rc-md-editor .editor-container .sec-md .input,
+.dark .rc-md-editor .editor-container .sec-html .html-wrap {
+  background-color: var(--md-bg) !important;
+  border-color: var(--md-border) !important;
+}
+
+.dark .rc-md-editor .rc-md-navigation .button-wrap .button,
+.dark .rc-md-editor textarea,
+.dark .rc-md-editor .editor-container .sec-md .input,
+.dark .rc-md-editor .editor-container .sec-html .html-wrap {
+  color: var(--md-text) !important;
+}
+
+.dark .rc-md-editor .rc-md-navigation .button-wrap .button:hover {
+  background-color: var(--md-hover) !important;
 } 

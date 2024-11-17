@@ -23,12 +23,6 @@ export const theme = {
       dark: '#374151',
     },
   },
-  spacing: {
-    container: {
-      padding: '1.5rem',
-      maxWidth: '1280px',
-    },
-  },
   animation: {
     transition: 'all 0.3s ease-in-out',
   },

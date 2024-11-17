@@ -34,9 +34,6 @@ const Proposals: React.FC = () => {
       <div className="content-container">
         <div className="flex justify-between items-center mb-8">
           <h2 className="section-title">Proposals</h2>
-          <button className="button-primary">
-            Create Proposal
-          </button>
         </div>
 
         {isLoading ? (
@@ -46,12 +43,9 @@ const Proposals: React.FC = () => {
         ) : proposals.length === 0 ? (
           <div className="card p-8 text-center">
             <h3 className="text-xl font-bold mb-2">No Proposals Yet</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Be the first to create a proposal for the community.
+            <p className="text-gray-600 dark:text-gray-300">
+              No proposals have been submitted to the community yet.
             </p>
-            <button className="button-primary">
-              Create First Proposal
-            </button>
           </div>
         ) : (
           <div className="card">

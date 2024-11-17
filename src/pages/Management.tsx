@@ -4,10 +4,15 @@ import TabbedTable from '../components/TabbedTable';
 import ElectionCard from '../components/ElectionCard';
 import { getProposals, getStatuses } from '../services/apiService';
 import { Proposal, Status } from '../types';
+import { SHA256 } from 'crypto-js';
 
 const Management: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const MAX_ATTEMPTS = 5;
+  const LOCK_DURATION = 5 * 60 * 1000; // 5 minutes
   const tabs = ['proposals', 'elections', 'treasury'] as const;
   type TabType = typeof tabs[number];
   const [activeTab, setActiveTab] = useState<TabType>('proposals');
@@ -30,14 +35,65 @@ const Management: React.FC = () => {
     fetchStatuses();
   }, []);
 
-  const handleLogin = () => {
-    const managementPassword = 'KatGov!2024';
-    if (password === managementPassword) {
+  const handleLogin = async () => {
+    if (isLocked) {
+      alert('Too many login attempts. Please try again later.');
+      return;
+    }
+
+    const hashedPassword = SHA256(password).toString();
+    const storedHash = import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH;
+
+    if (hashedPassword === storedHash) {
       setIsAuthenticated(true);
+      setLoginAttempts(0);
+      // Store auth state with expiration
+      const expirationTime = Date.now() + (30 * 60 * 1000); // 30 minutes
+      sessionStorage.setItem('mgmt_auth', '1');
+      sessionStorage.setItem('mgmt_auth_expiry', expirationTime.toString());
     } else {
+      const newAttempts = loginAttempts + 1;
+      setLoginAttempts(newAttempts);
+      
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setIsLocked(true);
+        setTimeout(() => {
+          setIsLocked(false);
+          setLoginAttempts(0);
+        }, LOCK_DURATION);
+      }
+      
       alert('Incorrect password');
     }
+    setPassword('');
   };
+
+  // Check for existing auth on mount
+  useEffect(() => {
+    const checkAuth = () => {
+      const isAuth = sessionStorage.getItem('mgmt_auth') === '1';
+      const expiryTime = sessionStorage.getItem('mgmt_auth_expiry');
+      
+      if (isAuth && expiryTime) {
+        const now = Date.now();
+        if (now < parseInt(expiryTime)) {
+          setIsAuthenticated(true);
+        } else {
+          // Clear expired session
+          sessionStorage.removeItem('mgmt_auth');
+          sessionStorage.removeItem('mgmt_auth_expiry');
+          setIsAuthenticated(false);
+        }
+      }
+    };
+
+    checkAuth();
+
+    // Check auth status every minute
+    const interval = setInterval(checkAuth, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const renderActionContent = () => {
     switch (activeAction) {
@@ -211,6 +267,7 @@ const Management: React.FC = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
               placeholder="Enter password"
               className="input-field mb-4"
             />

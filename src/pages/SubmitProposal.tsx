@@ -106,7 +106,7 @@ const SubmitProposal: React.FC = () => {
           <div className="card p-8 text-center max-w-2xl mx-auto">
             <h2 className="section-title mb-4">Proposal Submitted Successfully!</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Your proposal submission will not be reviewed until you send 100 ${import.meta.env.GOV_TOKEN_TICKER} to the wallet address below:
+              Your proposal submission will not be reviewed until you send 100 ${import.meta.env.VITE_GOV_TOKEN_TICKER} to the wallet address below:
             </p>
             <div className="flex justify-center mb-6">
               <QRCode value={walletAddress} size={128} />

@@ -42,7 +42,7 @@ const Management: React.FC = () => {
     }
 
     const hashedPassword = SHA256(password).toString();
-    const storedHash = (typeof import.meta.env !== 'undefined' && import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH) || '';
+    const storedHash = process.env.REACT_APP_MANAGEMENT_PASSWORD_HASH || '';
 
     if (!storedHash) {
       console.error('Management password hash not found in environment variables');
@@ -54,9 +54,9 @@ const Management: React.FC = () => {
       hashedInput: hashedPassword,
       storedHash,
       envVars: {
-        projectName: import.meta.env.VITE_GOV_PROJECT_NAME,
-        tokenTicker: import.meta.env.VITE_GOV_TOKEN_TICKER,
-        passwordHash: import.meta.env.VITE_MANAGEMENT_PASSWORD_HASH
+        projectName: process.env.REACT_APP_GOV_PROJECT_NAME,
+        tokenTicker: process.env.REACT_APP_GOV_TOKEN_TICKER,
+        passwordHash: process.env.REACT_APP_MANAGEMENT_PASSWORD_HASH
       }
     });
 

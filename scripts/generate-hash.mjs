@@ -14,4 +14,4 @@ console.log('\nPassword Hash Generated:');
 console.log('------------------------');
 console.log(hash);
 console.log('\nAdd this to your .env file as:');
-console.log(`VITE_MANAGEMENT_PASSWORD_HASH=${hash}\n`);
+console.log(`REACT_APP_MANAGEMENT_PASSWORD_HASH=${hash}\n`);

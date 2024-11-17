@@ -8,9 +8,9 @@ The following environment variables need to be configured:
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| VITE_MANAGEMENT_PASSWORD_HASH | SHA-256 hash of the management password | 7b7031bc... |
-| GOV_TOKEN_TICKER | The ticker symbol for your governance token | NACHO |
-| GOV_PROJECT_NAME | The name of your governance project | Kat Gov |
+| REACT_APP_MANAGEMENT_PASSWORD_HASH | SHA-256 hash of the management password | 7b7031bc... |
+| REACT_APP_GOV_TOKEN_TICKER | The ticker symbol for your governance token | NACHO |
+| REACT_APP_GOV_PROJECT_NAME | The name of your governance project | Kat Gov |
 
 ## Setup
 

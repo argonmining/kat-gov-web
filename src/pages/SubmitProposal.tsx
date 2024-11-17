@@ -5,7 +5,6 @@ import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import QRCode from 'react-qr-code';
 import axios from 'axios';
-import { useDarkMode } from '../context/DarkModeContext';
 
 interface ProposalType {
   id: number;
@@ -14,7 +13,6 @@ interface ProposalType {
 }
 
 const SubmitProposal: React.FC = () => {
-  const { isDarkMode } = useDarkMode();
   const [type, setType] = useState('');
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
@@ -101,11 +99,11 @@ const SubmitProposal: React.FC = () => {
   };
 
   return (
-    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
       <Navbar />
       <div className="container mx-auto mt-8 p-4">
         {showSuccess ? (
-          <div className="text-center">
+          <div className="text-center bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold mb-4">Proposal Submitted Successfully!</h2>
             <p className="mb-4">Your proposal submission will not be reviewed until you send 100 KDAO to the wallet address below:</p>
             <div className="flex justify-center mb-4">
@@ -119,17 +117,22 @@ const SubmitProposal: React.FC = () => {
         ) : (
           <div>
             {!isGenerated ? (
-              <button onClick={handleGenerateProposal} className="bg-primary text-white px-4 py-2 rounded">
+              <button onClick={handleGenerateProposal} className="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">
                 Generate Proposal
               </button>
             ) : (
-              <div>
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold">Submit Proposal</h2>
                 <p>Proposal Wallet Address: {walletAddress}</p>
                 <form onSubmit={handleSubmit} className="mt-4">
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Type</label>
-                    <select value={type} onChange={(e) => setType(e.target.value)} className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} required>
+                    <select 
+                      value={type} 
+                      onChange={(e) => setType(e.target.value)} 
+                      className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-black dark:text-white" 
+                      required
+                    >
                       {proposalTypes.map((proposalType) => (
                         <option key={proposalType.id} value={proposalType.name}>
                           {proposalType.name}
@@ -149,17 +152,26 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Subtitle</label>
-                    <input type="text" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className={`w-full p-2 border rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`} required />
+                    <input 
+                      type="text" 
+                      value={subtitle} 
+                      onChange={(e) => setSubtitle(e.target.value)} 
+                      className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-black dark:text-white" 
+                      required 
+                    />
                   </div>
                   <div className="mb-4">
                     <label className="block text-sm font-bold mb-2">Proposal Body</label>
-                    <MarkdownEditor
-                      value={body}
-                      style={{ height: '200px' }}
-                      renderHTML={(text) => text}
-                      onChange={({ text }) => setBody(text)}
-                      className="dark:bg-gray-800 dark:text-white"
-                    />
+                    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+                      <MarkdownEditor
+                        value={body}
+                        style={{ height: '200px' }}
+                        renderHTML={(text) => text}
+                        onChange={({ text }) => setBody(text)}
+                        className="dark:bg-gray-800 dark:text-white"
+                        view={{ menu: true, md: true, html: false }}
+                      />
+                    </div>
                   </div>
                   <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={isSubmitting}>
                     Submit

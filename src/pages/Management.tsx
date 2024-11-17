@@ -4,10 +4,8 @@ import TabbedTable from '../components/TabbedTable';
 import ElectionCard from '../components/ElectionCard';
 import { getProposals, getStatuses } from '../services/apiService';
 import { Proposal, Status } from '../types';
-import { useDarkMode } from '../context/DarkModeContext';
 
 const Management: React.FC = () => {
-  const { isDarkMode } = useDarkMode();
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<'proposals' | 'elections' | 'treasury'>('proposals');
@@ -45,7 +43,7 @@ const Management: React.FC = () => {
       case 'reject':
         return (
           <div className="mb-4">
-            <select className="border p-2 mr-2">
+            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
               {proposals
                 .filter(p => p.status === 2 || p.status === 3)
                 .map(p => (
@@ -54,7 +52,7 @@ const Management: React.FC = () => {
                   </option>
                 ))}
             </select>
-            <select className="border p-2 mr-2">
+            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
               {statuses.map(s => (
                 <option key={s.id} value={s.id}>
                   {s.name}
@@ -69,7 +67,7 @@ const Management: React.FC = () => {
       case 'schedule':
         return (
           <div className="mb-4">
-            <select className="border p-2 mr-2">
+            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
@@ -82,7 +80,7 @@ const Management: React.FC = () => {
       case 'burn':
         return (
           <div className="mb-4">
-            <select className="border p-2 mr-2">
+            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
@@ -95,14 +93,14 @@ const Management: React.FC = () => {
       case 'dropGas':
         return (
           <div className="mb-4">
-            <select className="border p-2 mr-2">
+            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
                 </option>
               ))}
             </select>
-            <select className="border p-2 mr-2">
+            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
               <option>Drop to Proposal Wallet</option>
               <option>Drop to YES Wallet</option>
               <option>Drop to NO Wallet</option>
@@ -116,26 +114,38 @@ const Management: React.FC = () => {
   };
 
   return (
-    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
       <Navbar />
       <div className="container mx-auto mt-8">
         {isAuthenticated ? (
           <div>
             <div className="flex mb-4">
               <button
-                className={`px-4 py-2 ${activeTab === 'proposals' ? 'border-b-2 border-primary' : ''}`}
+                className={`px-4 py-2 ${
+                  activeTab === 'proposals' 
+                    ? 'border-b-2 border-primary text-primary' 
+                    : 'text-gray-600 dark:text-gray-300'
+                }`}
                 onClick={() => setActiveTab('proposals')}
               >
                 Proposals
               </button>
               <button
-                className={`px-4 py-2 ${activeTab === 'elections' ? 'border-b-2 border-primary' : ''}`}
+                className={`px-4 py-2 ${
+                  activeTab === 'elections' 
+                    ? 'border-b-2 border-primary text-primary' 
+                    : 'text-gray-600 dark:text-gray-300'
+                }`}
                 onClick={() => setActiveTab('elections')}
               >
                 Elections
               </button>
               <button
-                className={`px-4 py-2 ${activeTab === 'treasury' ? 'border-b-2 border-primary' : ''}`}
+                className={`px-4 py-2 ${
+                  activeTab === 'treasury' 
+                    ? 'border-b-2 border-primary text-primary' 
+                    : 'text-gray-600 dark:text-gray-300'
+                }`}
                 onClick={() => setActiveTab('treasury')}
               >
                 Treasury
@@ -210,7 +220,7 @@ const Management: React.FC = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border rounded mb-4 bg-white dark:bg-gray-800 text-black dark:text-white"
               placeholder="Password"
             />
             <button onClick={handleLogin} className="bg-primary text-white px-4 py-2 rounded">

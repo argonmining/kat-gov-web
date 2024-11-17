@@ -1,17 +1,17 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import ElectionCard from '../components/ElectionCard';
-import { useDarkMode } from '../context/DarkModeContext';
 
 const Elections: React.FC = () => {
-  const { isDarkMode } = useDarkMode();
 
   return (
-    <div className={isDarkMode ? 'bg-gray-900 text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
       <Navbar />
-      <div className="container mx-auto mt-8">
-        <h2 className="text-2xl font-bold">Elections</h2>
-        <ElectionCard />
+      <div className="container mx-auto mt-8 p-4">
+        <h2 className="text-2xl font-bold mb-6">Elections</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <ElectionCard />
+        </div>
       </div>
     </div>
   );

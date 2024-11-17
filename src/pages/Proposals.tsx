@@ -7,28 +7,57 @@ import { Proposal, Status } from '../types';
 const Proposals: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [statuses, setStatuses] = useState<Status[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProposals = async () => {
-      const data = await getProposals();
-      setProposals(data);
+    const fetchData = async () => {
+      try {
+        const [proposalsData, statusesData] = await Promise.all([
+          getProposals(),
+          getStatuses()
+        ]);
+        setProposals(proposalsData);
+        setStatuses(statusesData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    const fetchStatuses = async () => {
-      const data = await getStatuses();
-      setStatuses(data);
-    };
-
-    fetchProposals();
-    fetchStatuses();
+    fetchData();
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="page-container">
       <Navbar />
-      <div className="container mx-auto mt-8 p-4">
-        <h2 className="text-3xl font-bold mb-4">Proposals</h2>
-        <TabbedTable proposals={proposals} statuses={statuses} />
+      <div className="content-container">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="section-title">Proposals</h2>
+          <button className="button-primary">
+            Create Proposal
+          </button>
+        </div>
+
+        {isLoading ? (
+          <div className="card p-8 text-center">
+            <p className="text-gray-600 dark:text-gray-300">Loading proposals...</p>
+          </div>
+        ) : proposals.length === 0 ? (
+          <div className="card p-8 text-center">
+            <h3 className="text-xl font-bold mb-2">No Proposals Yet</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Be the first to create a proposal for the community.
+            </p>
+            <button className="button-primary">
+              Create First Proposal
+            </button>
+          </div>
+        ) : (
+          <div className="card">
+            <TabbedTable proposals={proposals} statuses={statuses} />
+          </div>
+        )}
       </div>
     </div>
   );

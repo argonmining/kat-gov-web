@@ -3,51 +3,80 @@ import Navbar from '../components/Navbar';
 
 const Home: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="page-container">
       <Navbar />
-      <div className="container mx-auto mt-8 px-4">
-        <h1 className="text-4xl font-bold text-center">Welcome to Kat Gov</h1>
+      <div className="content-container">
+        <h1 className="section-title text-center mb-12">Welcome to Kat Gov</h1>
 
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a
-              href="/proposals"
-              className="p-6 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-lg rounded-lg text-center transform hover:scale-105 transition"
-            >
-              <h3 className="font-bold text-lg">View Proposals</h3>
-            </a>
-            <a
-              href="/submit-proposal"
-              className="p-6 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-lg rounded-lg text-center transform hover:scale-105 transition"
-            >
-              <h3 className="font-bold text-lg">Submit Proposal</h3>
-            </a>
-            <a
-              href="/elections"
-              className="p-6 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-lg rounded-lg text-center transform hover:scale-105 transition"
-            >
-              <h3 className="font-bold text-lg">View Elections</h3>
-            </a>
-          </div>
-        </div>
+        <div className="space-y-12">
+          <section>
+            <h2 className="section-title">Key Features</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <a
+                href="/proposals"
+                className="card hover:scale-105 transition-transform duration-300"
+              >
+                <div className="text-center space-y-4">
+                  <h3 className="text-xl font-bold">View Proposals</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    Browse and vote on active governance proposals
+                  </p>
+                </div>
+              </a>
+              <a
+                href="/submit-proposal"
+                className="card hover:scale-105 transition-transform duration-300"
+              >
+                <div className="text-center space-y-4">
+                  <h3 className="text-xl font-bold">Submit Proposal</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    Create and submit new governance proposals
+                  </p>
+                </div>
+              </a>
+              <a
+                href="/elections"
+                className="card hover:scale-105 transition-transform duration-300"
+              >
+                <div className="text-center space-y-4">
+                  <h3 className="text-xl font-bold">View Elections</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    Participate in ongoing elections
+                  </p>
+                </div>
+              </a>
+            </div>
+          </section>
 
-        <div className="mt-8">
-          <h2 className="text-2xl font-bold mb-4">Governance Statistics</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg text-center">
-              <h3 className="font-bold text-lg">Active Proposals</h3>
-              <p className="text-xl font-semibold">0</p>
+          <section>
+            <h2 className="section-title">Governance Statistics</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="card">
+                <div className="text-center space-y-2">
+                  <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">
+                    Active Proposals
+                  </h3>
+                  <p className="text-3xl font-bold text-primary">0</p>
+                </div>
+              </div>
+              <div className="card">
+                <div className="text-center space-y-2">
+                  <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">
+                    Active Elections
+                  </h3>
+                  <p className="text-3xl font-bold text-primary">0</p>
+                </div>
+              </div>
+              <div className="card">
+                <div className="text-center space-y-2">
+                  <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">
+                    Total Votes
+                  </h3>
+                  <p className="text-3xl font-bold text-primary">0</p>
+                </div>
+              </div>
             </div>
-            <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg text-center">
-              <h3 className="font-bold text-lg">Active Elections</h3>
-              <p className="text-xl font-semibold">0</p>
-            </div>
-            <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg text-center">
-              <h3 className="font-bold text-lg">Total Votes</h3>
-              <p className="text-xl font-semibold">0</p>
-            </div>
-          </div>
+          </section>
         </div>
       </div>
     </div>

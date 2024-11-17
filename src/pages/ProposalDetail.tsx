@@ -31,59 +31,74 @@ const ProposalDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="page-container">
       <Navbar />
-      <div className="container mx-auto mt-8 p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-            <h4 className="font-bold">Status: {proposal.status}</h4>
-            <p>Discussion Schedule: TBD</p>
-            <p>Voting Schedule: TBD</p>
-            <p>Snapshot Timestamp: TBD</p>
+      <div className="content-container">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="card">
+            <h4 className="text-xl font-bold mb-4">Status: {proposal.status}</h4>
+            <div className="space-y-3">
+              <p className="flex justify-between">
+                <span>Discussion Schedule:</span>
+                <span className="font-medium">TBD</span>
+              </p>
+              <p className="flex justify-between">
+                <span>Voting Schedule:</span>
+                <span className="font-medium">TBD</span>
+              </p>
+              <p className="flex justify-between">
+                <span>Snapshot Timestamp:</span>
+                <span className="font-medium">TBD</span>
+              </p>
+            </div>
           </div>
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg">
-            <h4 className="font-bold">Voting Progress</h4>
-            <div className="w-full bg-gray-600 rounded-full h-4">
+          <div className="card">
+            <h4 className="text-xl font-bold mb-4">Voting Progress</h4>
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-6 mb-4">
               <div
-                className="bg-primary h-4 rounded-full"
+                className="bg-primary h-6 rounded-full transition-all duration-500"
                 style={{ width: '0%' }}
               ></div>
             </div>
-            <p>0% of votes cast</p>
+            <p className="text-center font-medium">0% of votes cast</p>
           </div>
         </div>
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg mb-8">
-          <h2 className="text-3xl font-bold mb-2">{proposal.title}</h2>
-          <h3 className="text-xl mb-4">{proposal.subtitle}</h3>
-          <div className="mb-6">
+
+        <div className="card mb-8">
+          <h2 className="text-3xl font-bold mb-3">{proposal.title}</h2>
+          <h3 className="text-xl text-gray-600 dark:text-gray-300 mb-6">{proposal.subtitle}</h3>
+          <div className="prose dark:prose-invert max-w-none">
             <ReactMarkdown className="proposal-markdown">{proposal.body}</ReactMarkdown>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg flex justify-center">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="card flex justify-center items-center">
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded w-3/5 hover:bg-red-600 transition-colors"
+              className="button-danger w-4/5"
               onClick={() => setShowVoteNoPopup(true)}
             >
               Vote No
             </button>
           </div>
-          <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg flex justify-center">
+          <div className="card flex justify-center items-center">
             <button
-              className="bg-green-500 text-white px-4 py-2 rounded w-3/5 hover:bg-green-600 transition-colors"
+              className="button-success w-4/5"
               onClick={() => setShowVoteYesPopup(true)}
             >
               Vote Yes
             </button>
           </div>
         </div>
+
+        {/* Vote modals */}
         {showVoteNoPopup && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">How to Vote No</h3>
-              <p>Instructions on how to vote no...</p>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 animate-fadeIn">
+            <div className="card max-w-lg w-full mx-4 animate-slideUp">
+              <h3 className="text-2xl font-bold mb-4">How to Vote No</h3>
+              <p className="mb-6">Instructions on how to vote no...</p>
               <button
-                className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+                className="button-secondary w-full"
                 onClick={() => setShowVoteNoPopup(false)}
               >
                 Close
@@ -92,12 +107,12 @@ const ProposalDetail: React.FC = () => {
           </div>
         )}
         {showVoteYesPopup && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold mb-4">How to Vote Yes</h3>
-              <p>Instructions on how to vote yes...</p>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 animate-fadeIn">
+            <div className="card max-w-lg w-full mx-4 animate-slideUp">
+              <h3 className="text-2xl font-bold mb-4">How to Vote Yes</h3>
+              <p className="mb-6">Instructions on how to vote yes...</p>
               <button
-                className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
+                className="button-secondary w-full"
                 onClick={() => setShowVoteYesPopup(false)}
               >
                 Close

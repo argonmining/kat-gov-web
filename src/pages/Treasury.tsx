@@ -3,13 +3,12 @@ import Navbar from '../components/Navbar';
 import TreasuryTabs from '../components/TreasuryTabs';
 
 const Treasury: React.FC = () => {
-
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="page-container">
       <Navbar />
-      <div className="container mx-auto mt-8 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-6">Treasury</h2>
+      <div className="content-container">
+        <h2 className="section-title">Treasury Management</h2>
+        <div className="card">
           <TreasuryTabs />
         </div>
       </div>

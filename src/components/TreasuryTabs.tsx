@@ -30,54 +30,69 @@ const TreasuryTabs: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 transition-colors duration-200">
-      <div className="flex border-b dark:border-gray-700">
+    <div className="space-y-4 animate-fadeIn">
+      {/* Tab Navigation */}
+      <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
         {wallets.map((wallet) => (
           <button
             key={wallet.id}
-            className={`px-4 py-2 ${
-              activeTab === wallet.id 
-                ? 'border-b-2 border-primary text-primary' 
-                : 'text-gray-600 dark:text-gray-300'
-            }`}
+            className={`px-6 py-3 text-sm font-medium rounded-t-lg transition-all duration-200
+              ${activeTab === wallet.id 
+                ? 'bg-primary text-white' 
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
             onClick={() => setActiveTab(wallet.id)}
           >
             {wallet.address}
           </button>
         ))}
       </div>
+
+      {/* Table */}
       {wallets.map((wallet) => (
         activeTab === wallet.id && (
-          <table key={wallet.id} className="min-w-full bg-white dark:bg-gray-800 shadow-md rounded-lg">
-            <thead>
-              <tr className="bg-gray-50 dark:bg-gray-700">
-                <th className="py-3 px-4 text-left text-gray-900 dark:text-white">Amount</th>
-                <th className="py-3 px-4 text-left text-gray-900 dark:text-white">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {wallet.transactions.map((transaction) => (
-                <React.Fragment key={transaction.id}>
-                  <tr
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b dark:border-gray-600"
-                    onClick={() => toggleRow(transaction.id)}
-                  >
-                    <td className="py-3 px-4 text-gray-900 dark:text-white">{transaction.amount}</td>
-                    <td className="py-3 px-4 text-gray-900 dark:text-white">{transaction.date}</td>
-                  </tr>
-                  {expandedRow === transaction.id && (
-                    <tr className="bg-gray-50 dark:bg-gray-700">
-                      <td colSpan={2} className="py-4 px-4">
-                        <div className="p-4 bg-white dark:bg-gray-800 shadow rounded-lg text-gray-900 dark:text-white">
-                          {transaction.details}
-                        </div>
+          <div key={wallet.id} className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Amount
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                {wallet.transactions.map((transaction) => (
+                  <React.Fragment key={transaction.id}>
+                    <tr
+                      className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 cursor-pointer"
+                      onClick={() => toggleRow(transaction.id)}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="text-primary font-medium">{transaction.amount} KAS</span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
+                        {transaction.date}
                       </td>
                     </tr>
-                  )}
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
+                    {expandedRow === transaction.id && (
+                      <tr className="bg-gray-50 dark:bg-gray-800">
+                        <td colSpan={2} className="px-6 py-4">
+                          <div className="card">
+                            <h4 className="font-medium mb-2">Transaction Details</h4>
+                            <p className="text-gray-600 dark:text-gray-300">
+                              {transaction.details}
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )
       ))}
     </div>

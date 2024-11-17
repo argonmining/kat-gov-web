@@ -8,7 +8,9 @@ import { Proposal, Status } from '../types';
 const Management: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'proposals' | 'elections' | 'treasury'>('proposals');
+  const tabs = ['proposals', 'elections', 'treasury'] as const;
+  type TabType = typeof tabs[number];
+  const [activeTab, setActiveTab] = useState<TabType>('proposals');
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [activeAction, setActiveAction] = useState<string | null>(null);
@@ -42,8 +44,8 @@ const Management: React.FC = () => {
       case 'approve':
       case 'reject':
         return (
-          <div className="mb-4">
-            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <div className="flex flex-wrap gap-4 items-center">
+            <select className="select-field mr-2">
               {proposals
                 .filter(p => p.status === 2 || p.status === 3)
                 .map(p => (
@@ -52,60 +54,60 @@ const Management: React.FC = () => {
                   </option>
                 ))}
             </select>
-            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
+            <select className="select-field mr-2">
               {statuses.map(s => (
                 <option key={s.id} value={s.id}>
                   {s.name}
                 </option>
               ))}
             </select>
-            <button className="bg-primary text-white px-4 py-2 rounded">
+            <button className={`button-${activeAction === 'approve' ? 'success' : 'danger'}`}>
               {activeAction === 'approve' ? 'Approve' : 'Reject'}
             </button>
           </div>
         );
       case 'schedule':
         return (
-          <div className="mb-4">
-            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <div className="flex flex-wrap gap-4 items-center">
+            <select className="select-field mr-2">
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
                 </option>
               ))}
             </select>
-            <button className="bg-primary text-white px-4 py-2 rounded">Schedule</button>
+            <button className="button-primary">Schedule</button>
           </div>
         );
       case 'burn':
         return (
-          <div className="mb-4">
-            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <div className="flex flex-wrap gap-4 items-center">
+            <select className="select-field mr-2">
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
                 </option>
               ))}
             </select>
-            <button className="bg-primary text-white px-4 py-2 rounded">Burn</button>
+            <button className="button-primary">Burn</button>
           </div>
         );
       case 'dropGas':
         return (
-          <div className="mb-4">
-            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
+          <div className="flex flex-wrap gap-4 items-center">
+            <select className="select-field mr-2">
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
                 </option>
               ))}
             </select>
-            <select className="border p-2 mr-2 bg-white dark:bg-gray-800 text-black dark:text-white">
+            <select className="select-field mr-2">
               <option>Drop to Proposal Wallet</option>
               <option>Drop to YES Wallet</option>
               <option>Drop to NO Wallet</option>
             </select>
-            <button className="bg-primary text-white px-4 py-2 rounded">DropGas</button>
+            <button className="button-primary">DropGas</button>
           </div>
         );
       default:
@@ -114,117 +116,109 @@ const Management: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="page-container">
       <Navbar />
-      <div className="container mx-auto mt-8">
+      <div className="content-container">
         {isAuthenticated ? (
-          <div>
-            <div className="flex mb-4">
-              <button
-                className={`px-4 py-2 ${
-                  activeTab === 'proposals' 
-                    ? 'border-b-2 border-primary text-primary' 
-                    : 'text-gray-600 dark:text-gray-300'
-                }`}
-                onClick={() => setActiveTab('proposals')}
-              >
-                Proposals
-              </button>
-              <button
-                className={`px-4 py-2 ${
-                  activeTab === 'elections' 
-                    ? 'border-b-2 border-primary text-primary' 
-                    : 'text-gray-600 dark:text-gray-300'
-                }`}
-                onClick={() => setActiveTab('elections')}
-              >
-                Elections
-              </button>
-              <button
-                className={`px-4 py-2 ${
-                  activeTab === 'treasury' 
-                    ? 'border-b-2 border-primary text-primary' 
-                    : 'text-gray-600 dark:text-gray-300'
-                }`}
-                onClick={() => setActiveTab('treasury')}
-              >
-                Treasury
-              </button>
+          <div className="animate-fadeIn">
+            {/* Tabs Navigation */}
+            <div className="flex space-x-8 mb-8 border-b border-gray-200 dark:border-gray-700">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  className={`px-6 py-4 text-lg font-medium capitalize transition-all duration-200
+                    ${activeTab === tab 
+                      ? 'border-b-2 border-primary text-primary translate-y-[2px]' 
+                      : 'text-gray-600 dark:text-gray-300 hover:text-primary'}`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
+
+            {/* Proposals Tab */}
             {activeTab === 'proposals' && (
-              <div>
-                <div className="flex justify-between mb-4">
-                  <button
-                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
-                    onClick={() => setActiveAction('approve')}
-                  >
-                    Approve
-                  </button>
-                  <button
-                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
-                    onClick={() => setActiveAction('reject')}
-                  >
-                    Reject
-                  </button>
-                  <button
-                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
-                    onClick={() => setActiveAction('schedule')}
-                  >
-                    Schedule
-                  </button>
-                  <button
-                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
-                    onClick={() => setActiveAction('burn')}
-                  >
-                    Burn
-                  </button>
-                  <button
-                    className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1"
-                    onClick={() => setActiveAction('dropGas')}
-                  >
-                    DropGas
-                  </button>
+              <div className="space-y-8">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                  {['approve', 'reject', 'schedule', 'burn', 'dropGas'].map((action) => (
+                    <button
+                      key={action}
+                      onClick={() => setActiveAction(action)}
+                      className={`button-primary capitalize ${
+                        activeAction === action ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-900' : ''
+                      }`}
+                    >
+                      {action}
+                    </button>
+                  ))}
                 </div>
-                {renderActionContent()}
-                <TabbedTable proposals={proposals} statuses={statuses} />
+                
+                {/* Action Content */}
+                <div className="card p-6">
+                  {renderActionContent()}
+                </div>
+
+                {/* Table */}
+                <div className="card p-6">
+                  <TabbedTable proposals={proposals} statuses={statuses} />
+                </div>
               </div>
             )}
+
+            {/* Elections Tab */}
             {activeTab === 'elections' && (
-              <div>
-                <div className="flex justify-between mb-4">
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">New</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Review</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Schedule</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Burn</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">DropGas</button>
+              <div className="space-y-8">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                  {['new', 'review', 'schedule', 'burn', 'dropGas'].map((action) => (
+                    <button key={action} className="button-primary capitalize">
+                      {action}
+                    </button>
+                  ))}
                 </div>
-                <ElectionCard />
+                <div className="card p-6">
+                  <ElectionCard />
+                </div>
               </div>
             )}
+
+            {/* Treasury Tab */}
             {activeTab === 'treasury' && (
-              <div>
-                <div className="flex justify-between mb-4">
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Manage Wallets</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Add Comment</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Edit Comment</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Update Transactions</button>
-                  <button className="bg-primary text-white px-4 py-2 rounded flex-1 mx-1">Balance Check</button>
+              <div className="space-y-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                  {[
+                    'manage wallets',
+                    'add comment',
+                    'edit comment',
+                    'update transactions',
+                    'balance check'
+                  ].map((action) => (
+                    <button key={action} className="button-primary capitalize">
+                      {action}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
           </div>
         ) : (
-          <div className="max-w-sm mx-auto text-center">
-            <h2 className="text-2xl font-bold mb-4">Enter Management Password</h2>
+          <div className="card p-8 text-center max-w-md mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Authentication Required</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Please sign in to access management features.
+            </p>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded mb-4 bg-white dark:bg-gray-800 text-black dark:text-white"
-              placeholder="Password"
+              placeholder="Enter password"
+              className="input-field mb-4"
             />
-            <button onClick={handleLogin} className="bg-primary text-white px-4 py-2 rounded">
-              Login
+            <button 
+              onClick={handleLogin} 
+              className="button-primary w-full"
+            >
+              Sign In
             </button>
           </div>
         )}

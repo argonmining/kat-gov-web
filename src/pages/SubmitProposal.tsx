@@ -100,38 +100,46 @@ const SubmitProposal: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white">
+    <div className="page-container">
       <Navbar />
-      <div className="container mx-auto mt-8 p-4">
+      <div className="content-container">
         {showSuccess ? (
-          <div className="text-center bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Proposal Submitted Successfully!</h2>
-            <p className="mb-4">Your proposal submission will not be reviewed until you send 100 KDAO to the wallet address below:</p>
-            <div className="flex justify-center mb-4">
+          <div className="card p-8 text-center max-w-2xl mx-auto">
+            <h2 className="section-title mb-4">Proposal Submitted Successfully!</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Your proposal submission will not be reviewed until you send 100 KDAO to the wallet address below:
+            </p>
+            <div className="flex justify-center mb-6">
               <QRCode value={walletAddress} size={128} />
             </div>
-            <p className="font-bold mb-4">{walletAddress}</p>
-            <button onClick={handleCopyToClipboard} className="bg-blue-500 text-white px-4 py-2 rounded">
+            <p className="font-medium mb-6">{walletAddress}</p>
+            <button onClick={handleCopyToClipboard} className="button-primary">
               Copy Wallet Address
             </button>
           </div>
         ) : (
           <div>
             {!isGenerated ? (
-              <button onClick={handleGenerateProposal} className="bg-primary text-white px-4 py-2 rounded hover:bg-opacity-90">
-                Generate Proposal
-              </button>
+              <div className="card p-8 text-center max-w-2xl mx-auto">
+                <h2 className="section-title mb-4">Create New Proposal</h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Click the button below to generate a new proposal. This will create a draft that you can edit.
+                </p>
+                <button onClick={handleGenerateProposal} className="button-primary">
+                  Generate Proposal
+                </button>
+              </div>
             ) : (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold">Submit Proposal</h2>
-                <p>Proposal Wallet Address: {walletAddress}</p>
-                <form onSubmit={handleSubmit} className="mt-4">
-                  <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Type</label>
+              <div className="card p-8 max-w-4xl mx-auto">
+                <h2 className="section-title mb-6">Submit Proposal</h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">Proposal Wallet Address: {walletAddress}</p>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label className="form-label">Type</label>
                     <select 
                       value={type} 
                       onChange={(e) => setType(e.target.value)} 
-                      className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-black dark:text-white" 
+                      className="select-field" 
                       required
                     >
                       {proposalTypes.map((proposalType) => (
@@ -141,32 +149,32 @@ const SubmitProposal: React.FC = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Title</label>
+                  <div>
+                    <label className="form-label">Title</label>
                     <input 
                       type="text" 
                       value={title} 
                       onChange={(e) => setTitle(e.target.value)} 
-                      className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-black dark:text-white" 
+                      className="input-field" 
                       required 
                     />
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Subtitle</label>
+                  <div>
+                    <label className="form-label">Subtitle</label>
                     <input 
                       type="text" 
                       value={subtitle} 
                       onChange={(e) => setSubtitle(e.target.value)} 
-                      className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-black dark:text-white" 
+                      className="input-field" 
                       required 
                     />
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-bold mb-2">Proposal Body</label>
-                    <div className="rounded-lg overflow-hidden">
+                  <div>
+                    <label className="form-label">Proposal Body</label>
+                    <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                       <MarkdownEditor
                         value={body}
-                        style={{ height: '200px' }}
+                        style={{ height: '400px' }}
                         renderHTML={(text) => text}
                         onChange={({ text }) => setBody(text)}
                         view={{ menu: true, md: true, html: false }}
@@ -187,9 +195,11 @@ const SubmitProposal: React.FC = () => {
                       />
                     </div>
                   </div>
-                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={isSubmitting}>
-                    Submit
-                  </button>
+                  <div className="flex justify-end">
+                    <button type="submit" className="button-primary" disabled={isSubmitting}>
+                      {isSubmitting ? 'Submitting...' : 'Submit Proposal'}
+                    </button>
+                  </div>
                 </form>
               </div>
             )}

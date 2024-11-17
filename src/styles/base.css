@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased text-gray-900 dark:text-white bg-white dark:bg-gray-900;
+  }
+}
+
+@layer components {
+  /* Layout Components */
+  .page-container {
+    @apply min-h-screen bg-white dark:bg-gray-900 text-black 
+    dark:text-white animate-fadeIn;
+  }
+
+  .content-container {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-slideUp;
+  }
+
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Card Components */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl 
+    transition-all duration-300 p-6;
+  }
+
+  /* Typography Components */
+  .section-title {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold mb-6;
+  }
+
+  .nav-link {
+    @apply text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary 
+    transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+  }
+
+  /* Button Components */
+  .button-primary {
+    @apply bg-primary hover:bg-primary-dark text-white font-medium 
+    px-6 py-3 rounded-lg transition-all duration-300 transform 
+    hover:scale-105 focus:ring-2 focus:ring-primary focus:ring-opacity-50 
+    disabled:opacity-50;
+  }
+
+  .button-secondary {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white 
+    border border-gray-200 dark:border-gray-700 hover:bg-gray-50 
+    dark:hover:bg-gray-700 font-medium px-6 py-3 rounded-lg 
+    transition-all duration-300;
+  }
+
+  .button-danger {
+    @apply bg-red-500 hover:bg-red-600 text-white font-medium 
+    px-6 py-3 rounded-lg transition-all duration-300 transform 
+    hover:scale-105 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50;
+  }
+
+  .button-success {
+    @apply bg-green-500 hover:bg-green-600 text-white font-medium 
+    px-6 py-3 rounded-lg transition-all duration-300 transform 
+    hover:scale-105 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50;
+  }
+
+  /* Form Components */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 
+    bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 
+    focus:ring-primary focus:border-transparent transition-all duration-300;
+  }
+
+  .select-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 
+    bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 
+    focus:ring-primary focus:border-transparent transition-all duration-300;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+/* Markdown editor customization */
+.rc-md-editor {
+  @apply rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden;
+}
+
+.dark .rc-md-editor {
+  @apply bg-gray-800 text-white;
+} 

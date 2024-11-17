@@ -20,12 +20,14 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
     : proposals.filter((proposal) => proposal.status === activeTab);
 
   return (
-    <div className="overflow-x-auto">
-      <div className="flex border-b mb-4">
+    <div className="space-y-4 animate-fadeIn">
+      {/* Tab Navigation */}
+      <div className="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700">
         <button
-          className={`px-4 py-2 ${
-            activeTab === null ? 'border-b-2 border-primary text-primary' : ''
-          }`}
+          className={`px-6 py-3 text-sm font-medium rounded-t-lg transition-all duration-200
+            ${activeTab === null 
+              ? 'bg-primary text-white' 
+              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           onClick={() => setActiveTab(null)}
         >
           All
@@ -33,55 +35,86 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
         {statuses.map((status) => (
           <button
             key={status.id}
-            className={`px-4 py-2 ${
-              activeTab === status.id ? 'border-b-2 border-primary text-primary' : ''
-            }`}
+            className={`px-6 py-3 text-sm font-medium rounded-t-lg transition-all duration-200
+              ${activeTab === status.id 
+                ? 'bg-primary text-white' 
+                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
             onClick={() => setActiveTab(status.id ?? null)}
           >
             {status.name}
           </button>
         ))}
       </div>
-      <table className="min-w-full table-auto border-collapse bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-900">
-            <th className="py-3 px-4 text-left">Title</th>
-            <th className="py-3 px-4 text-left">Status</th>
-            <th className="py-3 px-4 text-left">Submit Date</th>
-            <th className="py-3 px-4 text-left">Approved</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredProposals.map((proposal) => (
-            <React.Fragment key={proposal.id}>
-              <tr
-                className="hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer border-b"
-                onClick={() => toggleRow(proposal.id!)}
-              >
-                <td className="py-3 px-4">
-                  <Link to={`/proposals/${proposal.id}`} className="text-blue-500 hover:underline">
-                    {proposal.title}
-                  </Link>
-                </td>
-                <td className="py-3 px-4">
-                  {statuses.find((status) => status.id === proposal.status)?.name || 'Pending'}
-                </td>
-                <td className="py-3 px-4">{proposal.submitdate ?? 'N/A'}</td>
-                <td className="py-3 px-4">{proposal.approved ? 'Yes' : 'No'}</td>
-              </tr>
-              {expandedRow === proposal.id && (
-                <tr className="bg-gray-50 dark:bg-gray-700">
-                  <td colSpan={4} className="py-4 px-4">
-                    <div className="p-4 bg-gray-100 dark:bg-gray-800 shadow rounded-lg">
-                      <strong>Subtitle:</strong> {proposal.subtitle || 'No subtitle provided'}
-                    </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-800">
+            <tr>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Title
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Submit Date
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Approved
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+            {filteredProposals.map((proposal) => (
+              <React.Fragment key={proposal.id}>
+                <tr
+                  className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 cursor-pointer"
+                  onClick={() => toggleRow(proposal.id!)}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <Link 
+                      to={`/proposals/${proposal.id}`} 
+                      className="text-primary hover:text-primary-dark transition-colors duration-200"
+                    >
+                      {proposal.title}
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
+                      {statuses.find((status) => status.id === proposal.status)?.name || 'Pending'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
+                    {proposal.submitdate ?? 'N/A'}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium 
+                      ${proposal.approved 
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
+                    >
+                      {proposal.approved ? 'Yes' : 'No'}
+                    </span>
                   </td>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
+                {expandedRow === proposal.id && (
+                  <tr className="bg-gray-50 dark:bg-gray-800">
+                    <td colSpan={4} className="px-6 py-4">
+                      <div className="card">
+                        <h4 className="font-medium mb-2">Subtitle</h4>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          {proposal.subtitle || 'No subtitle provided'}
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

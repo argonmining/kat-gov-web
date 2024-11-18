@@ -12,7 +12,7 @@ export const theme = {
     },
     background: {
       light: '#FFFFFF',
-      dark: '#111827',
+      dark: '#231F20',
     },
     surface: {
       light: '#F9FAFB',

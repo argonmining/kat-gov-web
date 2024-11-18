@@ -26,7 +26,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
         <button
           className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-200 -mb-px
             ${activeTab === null 
-              ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white' 
+              ? 'bg-gradient-to-r from-primary to-secondary text-white' 
               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           onClick={() => setActiveTab(null)}
         >
@@ -37,7 +37,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
             key={status.id}
             className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-200 -mb-px
               ${activeTab === status.id 
-                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white' 
+                ? 'bg-gradient-to-r from-primary to-secondary text-white' 
                 : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
             onClick={() => setActiveTab(status.id ?? null)}
           >
@@ -69,7 +69,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
             {filteredProposals.map((proposal) => (
               <React.Fragment key={proposal.id}>
                 <tr
-                  className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-transform transform hover:scale-105"
+                  className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-transform transform hover:scale-102"
                   onClick={() => proposal.id !== undefined && toggleRow(proposal.id)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">

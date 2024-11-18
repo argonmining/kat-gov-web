@@ -32,7 +32,7 @@ const Proposals: React.FC = () => {
     <div className="page-container">
       <Navbar />
       <div className="content-container">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="section-title">Proposals</h2>
         </div>
 

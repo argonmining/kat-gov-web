@@ -25,7 +25,7 @@ export type ProposalUpdate = Partial<Proposal>;
 export interface Election {
   id?: number;
   title: string;
-  description?: string;
+  description: string;
   startDate?: string;
   endDate?: string;
 }

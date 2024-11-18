@@ -15,6 +15,8 @@ export interface Proposal {
   amount?: string;
   percentage?: string;
   details?: string;
+  votesActive?: boolean;
+  passed?: boolean;  
 }
 
 // Define ProposalUpdate as a partial type of Proposal

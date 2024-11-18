@@ -86,7 +86,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
-                    {proposal.submitdate ?? 'N/A'}
+                    {proposal.submitdate ? new Date(proposal.submitdate).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium 
@@ -101,10 +101,28 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                 {expandedRow === proposal.id && (
                   <tr className="bg-gray-50 dark:bg-gray-800">
                     <td colSpan={4} className="px-6 py-4">
-                      <div className="card">
-                        <h4 className="font-medium mb-2">Subtitle</h4>
+                      <div className="card space-y-2">
+                        <h4 className="font-medium mb-2">Details</h4>
                         <p className="text-gray-600 dark:text-gray-300">
-                          {proposal.subtitle || 'No subtitle provided'}
+                          <strong>Subtitle:</strong> {proposal.subtitle || 'No subtitle provided'}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          <strong>Type:</strong> {proposal.type || 'N/A'}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          <strong>Reviewed:</strong> {proposal.reviewed ? 'Yes' : 'No'}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          <strong>Open Vote Date:</strong> {proposal.openvote ? new Date(proposal.openvote).toLocaleDateString() : 'N/A'}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          <strong>Close Vote Date:</strong> {proposal.closevote ? new Date(proposal.closevote).toLocaleDateString() : 'N/A'}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          <strong>Votes Active:</strong> {proposal.votesActive ? 'Yes' : 'No'}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                          <strong>Passed:</strong> {proposal.passed ? 'Yes' : 'No'}
                         </p>
                       </div>
                     </td>

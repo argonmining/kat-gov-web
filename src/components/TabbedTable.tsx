@@ -61,7 +61,10 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                 Submit Date
               </th>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                Approved
+                Reviewed
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Qualified
               </th>
             </tr>
           </thead>
@@ -90,6 +93,15 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium 
+                      ${proposal.reviewed 
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                        : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
+                    >
+                      {proposal.reviewed ? 'Yes' : 'No'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium 
                       ${proposal.approved 
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
                         : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}
@@ -100,7 +112,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                 </tr>
                 {expandedRow === proposal.id && (
                   <tr className="bg-gray-50 dark:bg-gray-800">
-                    <td colSpan={4} className="px-6 py-4">
+                    <td colSpan={5} className="px-6 py-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <h4 className="font-medium text-gray-700 dark:text-gray-300">Subtitle</h4>

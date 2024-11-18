@@ -26,6 +26,7 @@ const Management: React.FC = () => {
   const [openVoteDate, setOpenVoteDate] = useState<Date | null>(null);
   const [closeVoteDate, setCloseVoteDate] = useState<Date | null>(null);
   const [updateMessage, setUpdateMessage] = useState<string | null>(null);
+  const [approveRejectChoice, setApproveRejectChoice] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -173,8 +174,7 @@ const Management: React.FC = () => {
 
   const renderActionContent = () => {
     switch (activeAction) {
-      case 'approve':
-      case 'reject':
+      case 'approve/reject':
         return (
           <div className="flex flex-wrap gap-4 items-center">
             <select
@@ -201,11 +201,18 @@ const Management: React.FC = () => {
                 </option>
               ))}
             </select>
-            <button
-              className={`button-${activeAction === 'approve' ? 'success' : 'danger'}`}
-              onClick={() => handleApproveReject(activeAction === 'approve')}
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setApproveRejectChoice(e.target.value === 'approve')}
             >
-              {activeAction === 'approve' ? 'Approve' : 'Reject'}
+              <option value="approve">Approve</option>
+              <option value="reject">Reject</option>
+            </select>
+            <button
+              className="button-primary"
+              onClick={() => handleApproveReject(approveRejectChoice)}
+            >
+              Submit
             </button>
           </div>
         );
@@ -316,11 +323,11 @@ const Management: React.FC = () => {
             {activeTab === 'proposals' && (
               <div className="space-y-8">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  {['approve', 'reject', 'status update', 'schedule', 'burn', 'dropGas'].map((action, index) => (
+                  {['approve/reject', 'status update', 'schedule', 'burn', 'dropGas'].map((action, index) => (
                     <button
                       key={action}
                       onClick={() => setActiveAction(action)}
-                      className={`button-primary capitalize px-2 py-1 text-sm ${
+                      className={`button-primary capitalize ${
                         activeAction === action ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-900' : ''
                       }`}
                     >

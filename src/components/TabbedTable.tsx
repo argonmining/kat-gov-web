@@ -85,11 +85,11 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
-                      {statuses.find((status) => status.id === proposal.status)?.name || 'Pending'}
+                      {statuses.find((status) => status.id === proposal.status)?.name || 'Draft'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
-                    {proposal.submitdate ? new Date(proposal.submitdate).toLocaleDateString() : 'N/A'}
+                    {proposal.submitted ? new Date(proposal.submitted).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium 

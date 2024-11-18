@@ -8,7 +8,7 @@ export interface Proposal {
   approved?: boolean;
   reviewed?: boolean;
   status?: number;
-  submitdate?: string;
+  submitted?: string;
   openvote?: string;
   snapshot?: string;
   closevote?: string;

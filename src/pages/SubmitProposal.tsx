@@ -72,7 +72,7 @@ const SubmitProposal: React.FC = () => {
       approved: false,
       reviewed: false,
       status: 2,
-      submitDate: new Date().toISOString(),
+      submitted: new Date().toISOString(),
     };
 
     try {

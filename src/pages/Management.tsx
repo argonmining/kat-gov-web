@@ -22,8 +22,10 @@ const Management: React.FC = () => {
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [activeAction, setActiveAction] = useState<string | null>(null);
   const [selectedProposalId, setSelectedProposalId] = useState<number | null>(null);
+  const [selectedStatusId, setSelectedStatusId] = useState<number | null>(null);
   const [openVoteDate, setOpenVoteDate] = useState<Date | null>(null);
   const [closeVoteDate, setCloseVoteDate] = useState<Date | null>(null);
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -106,15 +108,20 @@ const Management: React.FC = () => {
   }, []);
 
   const handleApproveReject = async (approved: boolean) => {
-    if (selectedProposalId !== null) {
+    if (selectedProposalId !== null && selectedStatusId !== null) {
       const proposal = proposals.find(p => p.id === selectedProposalId);
       if (proposal) {
-        await updateProposal(selectedProposalId, {
-          ...proposal,
-          status: 4, // Assuming 4 is the status for approved/rejected
-          reviewed: true,
-          approved
-        });
+        try {
+          await updateProposal(selectedProposalId, {
+            ...proposal,
+            status: selectedStatusId,
+            reviewed: true,
+            approved
+          });
+          setUpdateMessage('Proposal updated successfully.');
+        } catch (error) {
+          setUpdateMessage('Failed to update proposal.');
+        }
         // Refresh proposals
         const updatedProposals = await getProposals();
         setProposals(updatedProposals);
@@ -123,14 +130,20 @@ const Management: React.FC = () => {
   };
 
   const handleSchedule = async () => {
-    if (selectedProposalId !== null && openVoteDate && closeVoteDate) {
+    if (selectedProposalId !== null && openVoteDate && closeVoteDate && selectedStatusId !== null) {
       const proposal = proposals.find(p => p.id === selectedProposalId);
       if (proposal) {
-        await updateProposal(selectedProposalId, {
-          ...proposal,
-          openvote: openVoteDate.toISOString(),
-          closevote: closeVoteDate.toISOString()
-        });
+        try {
+          await updateProposal(selectedProposalId, {
+            ...proposal,
+            status: selectedStatusId,
+            openvote: openVoteDate.toISOString(),
+            closevote: closeVoteDate.toISOString()
+          });
+          setUpdateMessage('Schedule updated successfully.');
+        } catch (error) {
+          setUpdateMessage('Failed to update schedule.');
+        }
         // Refresh proposals
         const updatedProposals = await getProposals();
         setProposals(updatedProposals);
@@ -157,6 +170,17 @@ const Management: React.FC = () => {
                   </option>
                 ))}
             </select>
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setSelectedStatusId(Number(e.target.value))}
+            >
+              <option value="">Select Status</option>
+              {statuses.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
             <button
               className={`button-${activeAction === 'approve' ? 'success' : 'danger'}`}
               onClick={() => handleApproveReject(activeAction === 'approve')}
@@ -179,29 +203,37 @@ const Management: React.FC = () => {
                 </option>
               ))}
             </select>
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setSelectedStatusId(Number(e.target.value))}
+            >
+              <option value="">Select Status</option>
+              {statuses.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
             <DatePicker
               selected={openVoteDate}
               onChange={(date: Date | null) => setOpenVoteDate(date)}
               showTimeSelect
               dateFormat="Pp"
-              placeholderText="Select Open Vote Date"
-              className="input-field"
             />
             <DatePicker
               selected={closeVoteDate}
               onChange={(date: Date | null) => setCloseVoteDate(date)}
               showTimeSelect
               dateFormat="Pp"
-              placeholderText="Select Close Vote Date"
-              className="input-field"
             />
-            <button className="button-primary" onClick={handleSchedule}>
+            <button
+              className="button-primary"
+              onClick={handleSchedule}
+            >
               Schedule
             </button>
           </div>
         );
-      default:
-        return null;
     }
   };
 
@@ -248,6 +280,13 @@ const Management: React.FC = () => {
                 <div className="card p-6">
                   {renderActionContent()}
                 </div>
+
+                {/* Update Message */}
+                {updateMessage && (
+                  <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
+                    {updateMessage}
+                  </div>
+                )}
 
                 {/* Table */}
                 <div className="card p-6">

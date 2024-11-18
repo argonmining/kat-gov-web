@@ -37,11 +37,11 @@ const Proposals: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="card p-8 text-center">
+          <div className="card p-4 text-center">
             <p className="text-gray-600 dark:text-gray-300">Loading proposals...</p>
           </div>
         ) : proposals.length === 0 ? (
-          <div className="card p-8 text-center">
+          <div className="card p-4 text-center">
             <h3 className="text-xl font-bold mb-2">No Proposals Yet</h3>
             <p className="text-gray-600 dark:text-gray-300">
               No proposals have been submitted to the community yet.

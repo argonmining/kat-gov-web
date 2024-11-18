@@ -32,11 +32,11 @@ const Elections: React.FC = () => {
         </div>
 
         {isLoading ? (
-          <div className="card p-8 text-center">
+          <div className="card p-4 text-center">
             <p className="text-gray-600 dark:text-gray-300">Loading elections...</p>
           </div>
         ) : elections.length === 0 ? (
-          <div className="card p-8 text-center">
+          <div className="card p-4 text-center">
             <h3 className="text-xl font-bold mb-2">No Elections Yet</h3>
             <p className="text-gray-600 dark:text-gray-300">
               No elections have been conducted yet.

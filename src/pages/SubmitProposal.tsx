@@ -103,7 +103,7 @@ const SubmitProposal: React.FC = () => {
       <Navbar />
       <div className="content-container">
         {showSuccess ? (
-          <div className="card p-8 text-center max-w-2xl mx-auto">
+          <div className="card p-4 text-center max-w-2xl mx-auto">
             <h2 className="section-title mb-4">Proposal Submitted Successfully!</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               Your proposal submission will not be reviewed until you send 100 ${process.env.REACT_APP_GOV_TOKEN_TICKER} to the wallet address below:
@@ -119,7 +119,7 @@ const SubmitProposal: React.FC = () => {
         ) : (
           <div>
             {!isGenerated ? (
-              <div className="card p-8 text-center max-w-2xl mx-auto">
+              <div className="card p-4 text-center max-w-2xl mx-auto">
                 <h2 className="section-title mb-4">Create New Proposal</h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
                   Click the button below to generate a new proposal. This will create a draft that you can edit.
@@ -129,7 +129,7 @@ const SubmitProposal: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="card p-8 max-w-4xl mx-auto">
+              <div className="card p-4 max-w-4xl mx-auto">
                 <h2 className="section-title mb-6">Submit Proposal</h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">Proposal Wallet Address: {walletAddress}</p>
                 <form onSubmit={handleSubmit} className="space-y-6">

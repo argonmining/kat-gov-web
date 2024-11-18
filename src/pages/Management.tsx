@@ -391,7 +391,7 @@ const Management: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="card p-8 text-center max-w-md mx-auto">
+          <div className="card p-4 text-center max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-4">Authentication Required</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
               Please sign in to access management features.

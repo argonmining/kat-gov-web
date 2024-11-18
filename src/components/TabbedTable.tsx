@@ -10,14 +10,34 @@ interface TabbedTableProps {
 const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
   const [activeTab, setActiveTab] = useState<number | null>(null);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [sortColumn, setSortColumn] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const toggleRow = (id: number) => {
     setExpandedRow(expandedRow === id ? null : id);
   };
 
+  const handleSort = (column: string) => {
+    if (sortColumn === column) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortOrder('asc');
+    }
+  };
+
+  const sortedProposals = [...proposals].sort((a, b) => {
+    if (!sortColumn) return 0;
+    const aValue = a[sortColumn as keyof Proposal] ?? '';
+    const bValue = b[sortColumn as keyof Proposal] ?? '';
+    if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   const filteredProposals = activeTab === null
-    ? proposals
-    : proposals.filter((proposal) => proposal.status === activeTab);
+    ? sortedProposals
+    : sortedProposals.filter((proposal) => proposal.status === activeTab);
 
   return (
     <div className="space-y-4 animate-fadeIn">
@@ -51,19 +71,34 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('title')}
+              >
                 Title
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('status')}
+              >
                 Status
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('submitted')}
+              >
                 Submit Date
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('reviewed')}
+              >
                 Reviewed
               </th>
-              <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+              <th
+                className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+                onClick={() => handleSort('approved')}
+              >
                 Qualified
               </th>
             </tr>

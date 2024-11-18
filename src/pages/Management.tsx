@@ -320,7 +320,7 @@ const Management: React.FC = () => {
                     <button
                       key={action}
                       onClick={() => setActiveAction(action)}
-                      className={`button-primary capitalize ${
+                      className={`button-primary capitalize px-2 py-1 text-sm ${
                         activeAction === action ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-gray-900' : ''
                       }`}
                     >

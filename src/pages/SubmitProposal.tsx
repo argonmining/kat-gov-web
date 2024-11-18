@@ -135,10 +135,10 @@ const SubmitProposal: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="form-label">Type</label>
-                    <select
-                      value={type}
-                      onChange={(e) => setType(e.target.value)}
-                      className="select-field"
+                    <select 
+                      value={type} 
+                      onChange={(e) => setType(e.target.value)} 
+                      className="select-field" 
                       required
                     >
                       {proposalTypes.map((proposalType) => (
@@ -150,22 +150,22 @@ const SubmitProposal: React.FC = () => {
                   </div>
                   <div>
                     <label className="form-label">Title</label>
-                    <input
-                      type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      className="input-field"
-                      required
+                    <input 
+                      type="text" 
+                      value={title} 
+                      onChange={(e) => setTitle(e.target.value)} 
+                      className="input-field" 
+                      required 
                     />
                   </div>
                   <div>
                     <label className="form-label">Subtitle</label>
-                    <input
-                      type="text"
-                      value={subtitle}
-                      onChange={(e) => setSubtitle(e.target.value)}
-                      className="input-field"
-                      required
+                    <input 
+                      type="text" 
+                      value={subtitle} 
+                      onChange={(e) => setSubtitle(e.target.value)} 
+                      className="input-field" 
+                      required 
                     />
                   </div>
                   <div>

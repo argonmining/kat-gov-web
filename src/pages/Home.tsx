@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
+import { getProposals, getElections } from '../services/apiService';
 
 const Home: React.FC = () => {
+  const [activeProposals, setActiveProposals] = useState(0);
+  const [activeElections, setActiveElections] = useState(0);
+
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        const proposals = await getProposals({ status: 'active' });
+        const elections = await getElections();
+        setActiveProposals(proposals.length);
+        setActiveElections(elections.length);
+      } catch (error) {
+        console.error('Error fetching statistics:', error);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
+
   return (
     <div className="page-container">
       <Navbar />
@@ -56,7 +75,7 @@ const Home: React.FC = () => {
                   <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">
                     Active Proposals
                   </h3>
-                  <p className="text-3xl font-bold text-primary">0</p>
+                  <p className="text-3xl font-bold text-primary">{activeProposals}</p>
                 </div>
               </div>
               <div className="card">
@@ -64,15 +83,7 @@ const Home: React.FC = () => {
                   <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">
                     Active Elections
                   </h3>
-                  <p className="text-3xl font-bold text-primary">0</p>
-                </div>
-              </div>
-              <div className="card">
-                <div className="text-center space-y-2">
-                  <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">
-                    Total Votes
-                  </h3>
-                  <p className="text-3xl font-bold text-primary">0</p>
+                  <p className="text-3xl font-bold text-primary">{activeElections}</p>
                 </div>
               </div>
             </div>

@@ -50,6 +50,38 @@ const ProposalTable: React.FC = () => {
               {proposal.status}
             </span>
           </div>
+          <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Subtitle</h4>
+                <p className="text-gray-600 dark:text-gray-400">{proposal.description || 'No subtitle provided'}</p>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Type</h4>
+                <p className="text-gray-600 dark:text-gray-400">N/A</p>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Reviewed</h4>
+                <p className="text-gray-600 dark:text-gray-400">No</p>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Open Vote Date</h4>
+                <p className="text-gray-600 dark:text-gray-400">N/A</p>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Close Vote Date</h4>
+                <p className="text-gray-600 dark:text-gray-400">N/A</p>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Votes Active</h4>
+                <p className="text-gray-600 dark:text-gray-400">No</p>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-700 dark:text-gray-300">Passed</h4>
+                <p className="text-gray-600 dark:text-gray-400">No</p>
+              </div>
+            </div>
+          </div>
         </Link>
       ))}
     </div>

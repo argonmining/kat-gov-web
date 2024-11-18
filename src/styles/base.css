@@ -35,6 +35,10 @@
     transition-all duration-300 p-6;
   }
 
+  .card-expanded {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-4;
+  }
+
   /* Typography Components */
   .section-title {
     @apply text-2xl sm:text-3xl lg:text-4xl font-bold mb-6;

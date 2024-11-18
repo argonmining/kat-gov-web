@@ -26,7 +26,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
         <button
           className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-200 -mb-px
             ${activeTab === null 
-              ? 'bg-primary text-white' 
+              ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white' 
               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           onClick={() => setActiveTab(null)}
         >
@@ -37,7 +37,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
             key={status.id}
             className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-all duration-200 -mb-px
               ${activeTab === status.id 
-                ? 'bg-primary text-white' 
+                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white' 
                 : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
             onClick={() => setActiveTab(status.id ?? null)}
           >
@@ -47,9 +47,9 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-800">
+          <thead className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
             <tr>
               <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                 Title
@@ -69,8 +69,8 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
             {filteredProposals.map((proposal) => (
               <React.Fragment key={proposal.id}>
                 <tr
-                  className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200 cursor-pointer"
-                  onClick={() => toggleRow(proposal.id!)}
+                  className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-transform transform hover:scale-105"
+                  onClick={() => proposal.id !== undefined && toggleRow(proposal.id)}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <Link 
@@ -101,29 +101,35 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                 {expandedRow === proposal.id && (
                   <tr className="bg-gray-50 dark:bg-gray-800">
                     <td colSpan={4} className="px-6 py-4">
-                      <div className="card space-y-2">
-                        <h4 className="font-medium mb-2">Details</h4>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Subtitle:</strong> {proposal.subtitle || 'No subtitle provided'}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Type:</strong> {proposal.type || 'N/A'}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Reviewed:</strong> {proposal.reviewed ? 'Yes' : 'No'}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Open Vote Date:</strong> {proposal.openvote ? new Date(proposal.openvote).toLocaleDateString() : 'N/A'}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Close Vote Date:</strong> {proposal.closevote ? new Date(proposal.closevote).toLocaleDateString() : 'N/A'}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Votes Active:</strong> {proposal.votesActive ? 'Yes' : 'No'}
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                          <strong>Passed:</strong> {proposal.passed ? 'Yes' : 'No'}
-                        </p>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Subtitle</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.subtitle || 'No subtitle provided'}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Type</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.type || 'N/A'}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Reviewed</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.reviewed ? 'Yes' : 'No'}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Open Vote Date</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.openvote ? new Date(proposal.openvote).toLocaleDateString() : 'N/A'}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Close Vote Date</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.closevote ? new Date(proposal.closevote).toLocaleDateString() : 'N/A'}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Votes Active</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.votesActive ? 'Yes' : 'No'}</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700 dark:text-gray-300">Passed</h4>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.passed ? 'Yes' : 'No'}</p>
+                        </div>
                       </div>
                     </td>
                   </tr>

@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import TabbedTable from '../components/TabbedTable';
 import ElectionCard from '../components/ElectionCard';
-import { getProposals, getStatuses } from '../services/apiService';
+import { getProposals, getStatuses, updateProposal } from '../services/apiService';
 import { Proposal, Status } from '../types';
 import { SHA256 } from 'crypto-js';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Management: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -19,6 +21,9 @@ const Management: React.FC = () => {
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [statuses, setStatuses] = useState<Status[]>([]);
   const [activeAction, setActiveAction] = useState<string | null>(null);
+  const [selectedProposalId, setSelectedProposalId] = useState<number | null>(null);
+  const [openVoteDate, setOpenVoteDate] = useState<Date | null>(null);
+  const [closeVoteDate, setCloseVoteDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchProposals = async () => {
@@ -49,16 +54,6 @@ const Management: React.FC = () => {
       alert('Configuration error. Please contact administrator.');
       return;
     }
-
-    console.log('Environment Debug:', {
-      hashedInput: hashedPassword,
-      storedHash,
-      envVars: {
-        projectName: process.env.REACT_APP_GOV_PROJECT_NAME,
-        tokenTicker: process.env.REACT_APP_GOV_TOKEN_TICKER,
-        passwordHash: process.env.REACT_APP_MANAGEMENT_PASSWORD_HASH
-      }
-    });
 
     if (hashedPassword === storedHash) {
       setIsAuthenticated(true);
@@ -110,13 +105,50 @@ const Management: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleApproveReject = async (approved: boolean) => {
+    if (selectedProposalId !== null) {
+      const proposal = proposals.find(p => p.id === selectedProposalId);
+      if (proposal) {
+        await updateProposal(selectedProposalId, {
+          ...proposal,
+          status: 4, // Assuming 4 is the status for approved/rejected
+          reviewed: true,
+          approved
+        });
+        // Refresh proposals
+        const updatedProposals = await getProposals();
+        setProposals(updatedProposals);
+      }
+    }
+  };
+
+  const handleSchedule = async () => {
+    if (selectedProposalId !== null && openVoteDate && closeVoteDate) {
+      const proposal = proposals.find(p => p.id === selectedProposalId);
+      if (proposal) {
+        await updateProposal(selectedProposalId, {
+          ...proposal,
+          openvote: openVoteDate.toISOString(),
+          closevote: closeVoteDate.toISOString()
+        });
+        // Refresh proposals
+        const updatedProposals = await getProposals();
+        setProposals(updatedProposals);
+      }
+    }
+  };
+
   const renderActionContent = () => {
     switch (activeAction) {
       case 'approve':
       case 'reject':
         return (
           <div className="flex flex-wrap gap-4 items-center">
-            <select className="select-field mr-2">
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setSelectedProposalId(Number(e.target.value))}
+            >
+              <option value="">Select Proposal</option>
               {proposals
                 .filter(p => p.status === 2 || p.status === 3)
                 .map(p => (
@@ -125,14 +157,10 @@ const Management: React.FC = () => {
                   </option>
                 ))}
             </select>
-            <select className="select-field mr-2">
-              {statuses.map(s => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-            <button className={`button-${activeAction === 'approve' ? 'success' : 'danger'}`}>
+            <button
+              className={`button-${activeAction === 'approve' ? 'success' : 'danger'}`}
+              onClick={() => handleApproveReject(activeAction === 'approve')}
+            >
               {activeAction === 'approve' ? 'Approve' : 'Reject'}
             </button>
           </div>
@@ -140,45 +168,36 @@ const Management: React.FC = () => {
       case 'schedule':
         return (
           <div className="flex flex-wrap gap-4 items-center">
-            <select className="select-field mr-2">
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setSelectedProposalId(Number(e.target.value))}
+            >
+              <option value="">Select Proposal</option>
               {proposals.map(p => (
                 <option key={p.id} value={p.id}>
                   {p.title}
                 </option>
               ))}
             </select>
-            <button className="button-primary">Schedule</button>
-          </div>
-        );
-      case 'burn':
-        return (
-          <div className="flex flex-wrap gap-4 items-center">
-            <select className="select-field mr-2">
-              {proposals.map(p => (
-                <option key={p.id} value={p.id}>
-                  {p.title}
-                </option>
-              ))}
-            </select>
-            <button className="button-primary">Burn</button>
-          </div>
-        );
-      case 'dropGas':
-        return (
-          <div className="flex flex-wrap gap-4 items-center">
-            <select className="select-field mr-2">
-              {proposals.map(p => (
-                <option key={p.id} value={p.id}>
-                  {p.title}
-                </option>
-              ))}
-            </select>
-            <select className="select-field mr-2">
-              <option>Drop to Proposal Wallet</option>
-              <option>Drop to YES Wallet</option>
-              <option>Drop to NO Wallet</option>
-            </select>
-            <button className="button-primary">DropGas</button>
+            <DatePicker
+              selected={openVoteDate}
+              onChange={(date: Date | null) => setOpenVoteDate(date)}
+              showTimeSelect
+              dateFormat="Pp"
+              placeholderText="Select Open Vote Date"
+              className="input-field"
+            />
+            <DatePicker
+              selected={closeVoteDate}
+              onChange={(date: Date | null) => setCloseVoteDate(date)}
+              showTimeSelect
+              dateFormat="Pp"
+              placeholderText="Select Close Vote Date"
+              className="input-field"
+            />
+            <button className="button-primary" onClick={handleSchedule}>
+              Schedule
+            </button>
           </div>
         );
       default:

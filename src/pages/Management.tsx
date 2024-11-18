@@ -129,6 +129,26 @@ const Management: React.FC = () => {
     }
   };
 
+  const handleStatusUpdate = async () => {
+    if (selectedProposalId !== null && selectedStatusId !== null) {
+      const proposal = proposals.find(p => p.id === selectedProposalId);
+      if (proposal) {
+        try {
+          await updateProposal(selectedProposalId, {
+            ...proposal,
+            status: selectedStatusId
+          });
+          setUpdateMessage('Status updated successfully.');
+        } catch (error) {
+          setUpdateMessage('Failed to update status.');
+        }
+        // Refresh proposals
+        const updatedProposals = await getProposals();
+        setProposals(updatedProposals);
+      }
+    }
+  };
+
   const handleSchedule = async () => {
     if (selectedProposalId !== null && openVoteDate && closeVoteDate && selectedStatusId !== null) {
       const proposal = proposals.find(p => p.id === selectedProposalId);
@@ -186,6 +206,39 @@ const Management: React.FC = () => {
               onClick={() => handleApproveReject(activeAction === 'approve')}
             >
               {activeAction === 'approve' ? 'Approve' : 'Reject'}
+            </button>
+          </div>
+        );
+      case 'status update':
+        return (
+          <div className="flex flex-wrap gap-4 items-center">
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setSelectedProposalId(Number(e.target.value))}
+            >
+              <option value="">Select Proposal</option>
+              {proposals.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.title}
+                </option>
+              ))}
+            </select>
+            <select
+              className="select-field mr-2"
+              onChange={(e) => setSelectedStatusId(Number(e.target.value))}
+            >
+              <option value="">Select Status</option>
+              {statuses.map(s => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+            <button
+              className="button-primary"
+              onClick={handleStatusUpdate}
+            >
+              Update Status
             </button>
           </div>
         );
@@ -263,7 +316,7 @@ const Management: React.FC = () => {
             {activeTab === 'proposals' && (
               <div className="space-y-8">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  {['approve', 'reject', 'schedule', 'burn', 'dropGas'].map((action) => (
+                  {['approve', 'reject', 'status update', 'schedule', 'burn', 'dropGas'].map((action, index) => (
                     <button
                       key={action}
                       onClick={() => setActiveAction(action)}

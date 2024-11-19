@@ -80,3 +80,15 @@ export const updateProposalById = async (id: number, data: ProposalUpdate) => {
   const response = await api.put(`/proposals/${id}`, data);
   return response.data;
 };
+
+// New function to get the proposal submission fee
+export const getProposalSubmitFee = async (proposalId: number): Promise<{ fee: number; wallet: string }> => {
+  const response = await api.post(`/qualifyProposal/${proposalId}`);
+  return response.data;
+};
+
+// New function to get the proposal nomination fee
+export const getProposalNominationFee = async (): Promise<{ fee: number }> => {
+  const response = await api.get('/nominationFee');
+  return response.data;
+};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { createDraftProposal, getProposalById, updateProposalById } from '../services/apiService';
+import { createDraftProposal, getProposalById, updateProposalById, getProposalSubmitFee } from '../services/apiService';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import QRCode from 'react-qr-code';
@@ -23,6 +23,7 @@ const SubmitProposal: React.FC = () => {
   const [isGenerated, setIsGenerated] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [proposalTypes, setProposalTypes] = useState<ProposalType[]>([]);
+  const [fee, setFee] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProposalTypes = async () => {
@@ -49,6 +50,9 @@ const SubmitProposal: React.FC = () => {
       setBody(proposal.body || '');
       setType('DRAFT');
       setIsGenerated(true);
+
+      const { fee } = await getProposalSubmitFee(proposalId);
+      setFee(fee);
 
       await updateProposalById(proposalId, { status: 1 });
     } catch (error) {
@@ -106,7 +110,7 @@ const SubmitProposal: React.FC = () => {
           <div className="card p-4 text-center max-w-2xl mx-auto">
             <h2 className="section-title mb-4">Proposal Submitted Successfully!</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Your proposal submission will not be reviewed until you send 100 ${process.env.REACT_APP_GOV_TOKEN_TICKER} to the wallet address below:
+              Your proposal submission will not be reviewed until you send {fee} ${process.env.REACT_APP_GOV_TOKEN_TICKER} to the wallet address below:
             </p>
             <div className="flex justify-center mb-6">
               <QRCode value={walletAddress} size={128} />

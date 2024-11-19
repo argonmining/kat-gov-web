@@ -79,7 +79,7 @@ const ProposalDetail: React.FC = () => {
 
         <div className="card mb-8">
           <h2 className="text-3xl font-bold mb-3">{proposal.title}</h2>
-          <h3 className="text-xl text-gray-600 dark:text-gray-300 mb-6">{proposal.subtitle}</h3>
+          <h3 className="text-xl text-gray-600 dark:text-gray-300 mb-6">{proposal.description}</h3>
           <div className="prose dark:prose-invert max-w-none">
             <ReactMarkdown className="proposal-markdown">{proposal.body}</ReactMarkdown>
           </div>

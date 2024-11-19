@@ -25,7 +25,7 @@ const Home: React.FC = () => {
     <div className="page-container">
       <Navbar />
       <div className="content-container">
-        <h1 className="section-title text-center mb-12">Welcome to Kat Gov</h1>
+        <h1 className="section-title text-center mb-12">Welcome to Kaspa DAO Governance</h1>
 
         <div className="space-y-12">
           <section>

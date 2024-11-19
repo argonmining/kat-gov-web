@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Proposal, ProposalUpdate, Election, Status } from '../types'; // Adjust the import path as needed
 
 const api = axios.create({
-  baseURL: 'https://govapi.nachowyborski.xyz/api',
+  baseURL: 'https://govapi.kaspadao.org/api',
 });
 
 // Proposals

@@ -28,7 +28,7 @@ const SubmitProposal: React.FC = () => {
   useEffect(() => {
     const fetchProposalTypes = async () => {
       try {
-        const response = await axios.get('https://govapi.nachowyborski.xyz/api/proposal-types');
+        const response = await axios.get('https://govapi.kaspadao.org/api/proposal-types');
         setProposalTypes(response.data);
       } catch (error) {
         console.error('Error fetching proposal types:', error);

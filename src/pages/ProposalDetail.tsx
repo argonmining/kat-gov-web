@@ -19,6 +19,8 @@ const ProposalDetail: React.FC = () => {
       if (id) {
         try {
           const proposalData = await getProposalById(Number(id));
+          console.log('Fetched Proposal Data:', proposalData);
+          console.log('Wallet Address:', proposalData.wallet_address);
           setProposal(proposalData);
         } catch (error) {
           console.error('Error fetching proposal:', error);

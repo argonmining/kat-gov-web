@@ -79,7 +79,7 @@ const ProposalDetail: React.FC = () => {
 
         <div className="card mb-8">
           <h2 className="text-3xl font-bold mb-3">{proposal.title}</h2>
-          <h3 className="text-xl text-gray-600 dark:text-gray-300 mb-6">{proposal.subtitle}</h3>
+          <h3 className="text-xl text-gray-600 dark:text-gray-300 mb-6">{proposal.description}</h3>
           <div className="prose dark:prose-invert max-w-none">
             <ReactMarkdown className="proposal-markdown">{proposal.body}</ReactMarkdown>
           </div>
@@ -148,9 +148,11 @@ const ProposalDetail: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 mb-6">
                 To nominate this proposal send {nominationFee} {process.env.REACT_APP_GOV_TOKEN_TICKER} to the wallet address below:
               </p>
-              <div className="flex justify-center mb-6">
-                <QRCode value={proposal.wallet_address} size={128} />
-              </div>
+              {proposal.wallet_address && (
+                <div className="flex justify-center mb-6">
+                  <QRCode value={proposal.wallet_address} size={128} />
+                </div>
+              )}
               <p className="font-medium mb-6">{proposal.wallet_address}</p>
               <button onClick={() => navigator.clipboard.writeText(proposal.wallet_address)} className="button-primary">
                 Copy Wallet Address

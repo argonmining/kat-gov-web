@@ -15,7 +15,7 @@ interface ProposalType {
 const SubmitProposal: React.FC = () => {
   const [type, setType] = useState('');
   const [title, setTitle] = useState('');
-  const [subtitle, setSubtitle] = useState('');
+  const [description, setDescription] = useState('');
   const [body, setBody] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [proposalId, setProposalId] = useState<number | null>(null);
@@ -46,7 +46,7 @@ const SubmitProposal: React.FC = () => {
 
       const proposal = await getProposalById(proposalId);
       setTitle(proposal.title || '');
-      setSubtitle(proposal.subtitle || '');
+      setDescription(proposal.description || '');
       setBody(proposal.body || '');
       setType('DRAFT');
       setIsGenerated(true);
@@ -63,14 +63,14 @@ const SubmitProposal: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !subtitle || !body || type === 'DRAFT') {
+    if (!title || !description || !body || type === 'DRAFT') {
       alert('All fields are required and type cannot be "DRAFT".');
       return;
     }
 
     const proposalData = {
       title,
-      subtitle,
+      description,
       body,
       type: proposalTypes.find(pt => pt.name === type)?.id || 0,
       approved: false,
@@ -166,8 +166,8 @@ const SubmitProposal: React.FC = () => {
                     <label className="form-label">Subtitle</label>
                     <input 
                       type="text" 
-                      value={subtitle} 
-                      onChange={(e) => setSubtitle(e.target.value)} 
+                      value={description} 
+                      onChange={(e) => setDescription(e.target.value)} 
                       className="input-field" 
                       required 
                     />

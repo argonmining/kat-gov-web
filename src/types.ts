@@ -2,7 +2,7 @@
 export interface Proposal {
   id?: number;
   title: string;
-  subtitle?: string;
+  description?: string;
   body?: string;
   type?: number;
   approved?: boolean;

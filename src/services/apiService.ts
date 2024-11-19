@@ -60,7 +60,7 @@ export const deleteStatus = async (statusId: number): Promise<void> => {
 export const createDraftProposal = async (): Promise<{ proposalId: number; walletAddress: string }> => {
   const response = await api.post('/proposals', {
     title: "A draft proposal, please replace with the title of your proposal.",
-    subtitle: "Please replace this text with a short description of your proposal.",
+    description: "Please replace this text with a short description of your proposal.",
     type: 4,
     approved: false,
     reviewed: false,

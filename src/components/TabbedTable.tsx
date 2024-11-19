@@ -151,7 +151,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <h4 className="font-medium text-gray-700 dark:text-gray-300">Subtitle</h4>
-                          <p className="text-gray-600 dark:text-gray-400">{proposal.subtitle || 'No subtitle provided'}</p>
+                          <p className="text-gray-600 dark:text-gray-400">{proposal.description || 'No subtitle provided'}</p>
                         </div>
                         <div>
                           <h4 className="font-medium text-gray-700 dark:text-gray-300">Type</h4>

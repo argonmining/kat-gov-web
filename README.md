@@ -31,6 +31,9 @@ The following environment variables need to be configured:
 
 To start development, run the following commands:
 
+```bash
+npm install
+npm run dev
 ```
 
 ## Features

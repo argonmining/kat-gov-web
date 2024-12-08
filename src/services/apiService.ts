@@ -1,94 +1,131 @@
-import axios from 'axios';
-import { Proposal, ProposalUpdate, Election, Status } from '../types'; // Adjust the import path as needed
+import { ofetch } from 'ofetch';
+import { Proposal, ProposalUpdate, Election, Status } from '../types';
 
-const api = axios.create({
+const api = ofetch.create({
   baseURL: 'https://govapi.kaspadao.org/api',
 });
 
 // Proposals
 export const getProposals = async (params = {}): Promise<Proposal[]> => {
-  const response = await api.get('/proposals', { params });
-  return response.data;
+  const limit = 1000;
+  let offset = 0;
+  let allProposals: Proposal[] = [];
+  let hasMore = true;
+
+  while (hasMore) {
+    const proposals = await api('/proposals', {
+      method: 'GET',
+      params: { ...params, limit, offset },
+    });
+    allProposals = allProposals.concat(proposals);
+    offset += limit;
+    hasMore = proposals.length === limit;
+  }
+
+  return allProposals;
 };
 
 export const createProposal = async (proposal: Proposal): Promise<Proposal> => {
-  const response = await api.post('/proposals', proposal);
-  return response.data;
+  return await api('/proposals', {
+    method: 'POST',
+    body: proposal,
+  });
 };
 
 export const updateProposal = async (proposalId: number, proposal: Proposal): Promise<Proposal> => {
-  const response = await api.put(`/proposals/${proposalId}`, proposal);
-  return response.data;
+  return await api(`/proposals/${proposalId}`, {
+    method: 'PUT',
+    body: proposal,
+  });
 };
 
 export const deleteProposal = async (proposalId: number): Promise<void> => {
-  await api.delete(`/proposals/${proposalId}`);
+  await api(`/proposals/${proposalId}`, {
+    method: 'DELETE',
+  });
 };
 
 // Elections
 export const getElections = async (): Promise<Election[]> => {
-  const response = await api.get('/elections');
-  return response.data;
+  return await api('/elections', {
+    method: 'GET',
+  });
 };
 
 export const createElection = async (election: Election): Promise<Election> => {
-  const response = await api.post('/elections', election);
-  return response.data;
+  return await api('/elections', {
+    method: 'POST',
+    body: election,
+  });
 };
 
 // Statuses
 export const getStatuses = async (): Promise<Status[]> => {
-  const response = await api.get('/statuses');
-  return response.data;
+  return await api('/statuses', {
+    method: 'GET',
+  });
 };
 
 export const createStatus = async (status: Status): Promise<Status> => {
-  const response = await api.post('/statuses', status);
-  return response.data;
+  return await api('/statuses', {
+    method: 'POST',
+    body: status,
+  });
 };
 
 export const updateStatus = async (statusId: number, status: Status): Promise<Status> => {
-  const response = await api.put(`/statuses/${statusId}`, status);
-  return response.data;
+  return await api(`/statuses/${statusId}`, {
+    method: 'PUT',
+    body: status,
+  });
 };
 
 export const deleteStatus = async (statusId: number): Promise<void> => {
-  await api.delete(`/statuses/${statusId}`);
+  await api(`/statuses/${statusId}`, {
+    method: 'DELETE',
+  });
 };
 
 // New function to create a draft proposal
 export const createDraftProposal = async (): Promise<{ proposalId: number; walletAddress: string }> => {
-  const response = await api.post('/proposals', {
-    title: "A draft proposal, please replace with the title of your proposal.",
-    description: "Please replace this text with a short description of your proposal.",
-    type: 4,
-    approved: false,
-    reviewed: false,
-    status: 1
+  return await api('/proposals', {
+    method: 'POST',
+    body: {
+      title: "A draft proposal, please replace with the title of your proposal.",
+      description: "Please replace this text with a short description of your proposal.",
+      type: 4,
+      approved: false,
+      reviewed: false,
+      status: 1,
+    },
   });
-  return response.data;
 };
 
 // New function to get a proposal by ID
 export const getProposalById = async (proposalId: number): Promise<Proposal> => {
-  const response = await api.get(`/proposals/${proposalId}`);
-  return response.data;
+  return await api(`/proposals/${proposalId}`, {
+    method: 'GET',
+  });
 };
 
 // New function to update a proposal
 export const updateProposalById = async (id: number, data: ProposalUpdate) => {
-  const response = await api.put(`/proposals/${id}`, data);
-  return response.data;
+  return await api(`/proposals/${id}`, {
+    method: 'PUT',
+    body: data,
+  });
 };
 
 // New function to get the proposal submission fee
 export const getProposalSubmitFee = async (proposalId: number): Promise<{ fee: number; wallet: string }> => {
-  const response = await api.post(`/qualifyProposal/${proposalId}`);
-  return response.data;
+  return await api(`/qualifyProposal/${proposalId}`, {
+    method: 'POST',
+  });
 };
 
 // New function to get the proposal nomination fee
 export const getProposalNominationFee = async (): Promise<{ fee: number }> => {
-  const response = await api.get('/nominationFee');
-  return response.data;
+  return await api('/nominationFee', {
+    method: 'GET',
+  });
 };

@@ -36,7 +36,7 @@ const TabbedTable: React.FC<TabbedTableProps> = ({ proposals, statuses }) => {
   });
 
   const filteredProposals = activeTab === null
-    ? sortedProposals
+    ? sortedProposals.filter((proposal) => proposal.status !== 9 && proposal.status !== 10)
     : sortedProposals.filter((proposal) => proposal.status === activeTab);
 
   return (

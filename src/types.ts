@@ -17,7 +17,14 @@ export interface Proposal {
   details?: string;
   votesActive?: boolean;
   passed?: boolean;
-  wallet_address: string;
+  proposal_wallets_proposals_walletToproposal_wallets?: {
+    address: string;
+  } | null;
+  proposal_statuses?: {
+    id: number;
+    name: string;
+    active: boolean;
+  };
 }
 
 // Define ProposalUpdate as a partial type of Proposal

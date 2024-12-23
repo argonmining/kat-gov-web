@@ -20,7 +20,8 @@ const ProposalDetail: React.FC = () => {
         try {
           const proposalData = await getProposalById(Number(id));
           console.log('Fetched Proposal Data:', proposalData);
-          console.log('Wallet Address:', proposalData.wallet_address);
+          const walletAddress = proposalData.proposal_wallets_proposals_walletToproposal_wallets?.address;
+          console.log('Wallet Address:', walletAddress);
           setProposal(proposalData);
         } catch (error) {
           console.error('Error fetching proposal:', error);
@@ -150,15 +151,22 @@ const ProposalDetail: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 mb-6">
                 To nominate this proposal send {nominationFee} {process.env.REACT_APP_GOV_TOKEN_TICKER} to the wallet address below:
               </p>
-              {proposal.wallet_address && (
+              {proposal.proposal_wallets_proposals_walletToproposal_wallets?.address && (
                 <div className="flex justify-center mb-6">
-                  <QRCode value={proposal.wallet_address} size={128} />
+                  <QRCode value={proposal.proposal_wallets_proposals_walletToproposal_wallets.address} size={128} />
                 </div>
               )}
-              <p className="font-medium mb-6">{proposal.wallet_address}</p>
-              <button onClick={() => navigator.clipboard.writeText(proposal.wallet_address)} className="button-primary">
-                Copy Wallet Address
-              </button>
+              <p className="font-medium mb-6">
+                {proposal.proposal_wallets_proposals_walletToproposal_wallets?.address || 'No wallet address available'}
+              </p>
+              {proposal.proposal_wallets_proposals_walletToproposal_wallets?.address && (
+                <button 
+                  onClick={() => navigator.clipboard.writeText(proposal.proposal_wallets_proposals_walletToproposal_wallets!.address)} 
+                  className="button-primary"
+                >
+                  Copy Wallet Address
+                </button>
+              )}
               <button
                 className="button-secondary w-full mt-4"
                 onClick={() => setShowNominatePopup(false)}

@@ -37,3 +37,9 @@ export interface Status {
   active?: boolean;
 }
 
+export interface ProposalType {
+  id: number;
+  name: string;
+  simple: boolean;
+}
+

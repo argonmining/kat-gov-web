@@ -1,13 +1,23 @@
 import { ofetch } from 'ofetch';
-import { Proposal, ProposalUpdate, Election, Status } from '../types';
+import { Proposal, ProposalUpdate, Election, Status, ProposalType } from '../types';
+
+// Add this interface for proposal query parameters
+interface ProposalQueryParams {
+  sort?: string;
+  status?: string;
+  title?: string;
+  limit?: number;
+  offset?: number;
+  [key: string]: any; // Allow for additional query parameters
+}
 
 const api = ofetch.create({
   baseURL: 'https://govapi.kaspadao.org/api',
 });
 
 // Proposals
-export const getProposals = async (params = {}): Promise<Proposal[]> => {
-  const limit = 1000;
+export const getProposals = async (params: ProposalQueryParams = {}): Promise<Proposal[]> => {
+  const limit = 100;
   let offset = 0;
   let allProposals: Proposal[] = [];
   let hasMore = true;
@@ -15,7 +25,14 @@ export const getProposals = async (params = {}): Promise<Proposal[]> => {
   while (hasMore) {
     const proposals = await api('/proposals', {
       method: 'GET',
-      params: { ...params, limit, offset },
+      params: { 
+        ...params, 
+        limit, 
+        offset,
+        sort: params.sort,
+        status: params.status,
+        title: params.title
+      },
     });
     allProposals = allProposals.concat(proposals);
     offset += limit;
@@ -59,7 +76,7 @@ export const createElection = async (election: Election): Promise<Election> => {
   });
 };
 
-// Statuses
+// Statuses - Updated endpoints
 export const getStatuses = async (): Promise<Status[]> => {
   return await api('/proposals/statuses', {
     method: 'GET',
@@ -86,46 +103,55 @@ export const deleteStatus = async (statusId: number): Promise<void> => {
   });
 };
 
-// New function to create a draft proposal
+// Draft proposal
 export const createDraftProposal = async (): Promise<{ proposalId: number; walletAddress: string }> => {
   return await api('/proposals', {
     method: 'POST',
     body: {
       title: "A draft proposal, please replace with the title of your proposal.",
       description: "Please replace this text with a short description of your proposal.",
-      type: 4,
-      approved: false,
-      reviewed: false,
-      status: 1,
+      wallet: null
     },
   });
 };
 
-// New function to get a proposal by ID
 export const getProposalById = async (proposalId: number): Promise<Proposal> => {
   return await api(`/proposals/${proposalId}`, {
     method: 'GET',
   });
 };
 
-// New function to update a proposal
 export const updateProposalById = async (id: number, data: ProposalUpdate) => {
+  const validUpdateFields = {
+    title: data.title,
+    description: data.description,
+    reviewed: data.reviewed,
+    approved: data.approved,
+    passed: data.passed,
+    votesActive: data.votesActive,
+    status: data.status
+  };
+
   return await api(`/proposals/${id}`, {
     method: 'PUT',
-    body: data,
+    body: validUpdateFields,
   });
 };
 
-// New function to get the proposal submission fee
 export const getProposalSubmitFee = async (proposalId: number): Promise<{ fee: number; wallet: string }> => {
   return await api(`/qualifyProposal/${proposalId}`, {
     method: 'POST',
   });
 };
 
-// New function to get the proposal nomination fee
-export const getProposalNominationFee = async (): Promise<{ fee: number }> => {
+export const getProposalNominationFee = async (): Promise<{ fee: number; currency: string }> => {
   return await api('/nominationFee', {
+    method: 'GET',
+  });
+};
+
+export const getProposalTypes = async (): Promise<ProposalType[]> => {
+  return await api('/proposals/types', {
     method: 'GET',
   });
 };

@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { createDraftProposal, getProposalById, updateProposalById, getProposalSubmitFee } from '../services/apiService';
+import { createDraftProposal, getProposalById, updateProposalById, getProposalSubmitFee, getProposalTypes } from '../services/apiService';
+import { ProposalType } from '../types';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import QRCode from 'react-qr-code';
-import axios from 'axios';
-
-interface ProposalType {
-  id: number;
-  name: string;
-  simple: boolean;
-}
 
 const SubmitProposal: React.FC = () => {
   const [type, setType] = useState('');
@@ -28,8 +22,8 @@ const SubmitProposal: React.FC = () => {
   useEffect(() => {
     const fetchProposalTypes = async () => {
       try {
-        const response = await axios.get('https://govapi.kaspadao.org/api/proposal-types');
-        setProposalTypes(response.data);
+        const types = await getProposalTypes();
+        setProposalTypes(types);
       } catch (error) {
         console.error('Error fetching proposal types:', error);
       }

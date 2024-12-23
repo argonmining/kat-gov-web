@@ -34,21 +34,28 @@ const SubmitProposal: React.FC = () => {
 
   const handleGenerateProposal = async () => {
     try {
-      const { proposalId, walletAddress } = await createDraftProposal();
+      const response = await createDraftProposal();
+      const proposalId = response.id;
+      const walletAddress = response.proposal_wallets_proposals_walletToproposal_wallets?.address || '';
+      
       setProposalId(proposalId);
       setWalletAddress(walletAddress);
 
-      const proposal = await getProposalById(proposalId);
-      setTitle(proposal.title || '');
-      setDescription(proposal.description || '');
-      setBody(proposal.body || '');
-      setType('DRAFT');
-      setIsGenerated(true);
+      if (proposalId) {
+        const proposal = await getProposalById(proposalId);
+        setTitle(proposal.title || '');
+        setDescription(proposal.description || '');
+        setBody(proposal.body || '');
+        setType('DRAFT');
+        setIsGenerated(true);
 
-      const { fee } = await getProposalSubmitFee(proposalId);
-      setFee(fee);
+        const feeResponse = await getProposalSubmitFee(proposalId);
+        setFee(feeResponse.fee);
 
-      await updateProposalById(proposalId, { status: 1 });
+        await updateProposalById(proposalId, { status: 1 });
+      } else {
+        throw new Error('No proposal ID received from server');
+      }
     } catch (error) {
       console.error('Error generating proposal:', error);
       alert('Failed to generate proposal.');

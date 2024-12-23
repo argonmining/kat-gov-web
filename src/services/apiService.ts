@@ -104,8 +104,8 @@ export const deleteStatus = async (statusId: number): Promise<void> => {
 };
 
 // Draft proposal
-export const createDraftProposal = async (): Promise<{ proposalId: number; walletAddress: string }> => {
-  return await api('/proposals', {
+export const createDraftProposal = async (): Promise<{ id: number; proposal_wallets_proposals_walletToproposal_wallets: { address: string } }> => {
+  const response = await api('/proposals', {
     method: 'POST',
     body: {
       title: "A draft proposal, please replace with the title of your proposal.",
@@ -113,6 +113,7 @@ export const createDraftProposal = async (): Promise<{ proposalId: number; walle
       wallet: null
     },
   });
+  return response;
 };
 
 export const getProposalById = async (proposalId: number): Promise<Proposal> => {

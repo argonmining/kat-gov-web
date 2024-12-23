@@ -61,27 +61,27 @@ export const createElection = async (election: Election): Promise<Election> => {
 
 // Statuses
 export const getStatuses = async (): Promise<Status[]> => {
-  return await api('/statuses', {
+  return await api('/proposals/statuses', {
     method: 'GET',
   });
 };
 
 export const createStatus = async (status: Status): Promise<Status> => {
-  return await api('/statuses', {
+  return await api('/proposals/statuses', {
     method: 'POST',
     body: status,
   });
 };
 
 export const updateStatus = async (statusId: number, status: Status): Promise<Status> => {
-  return await api(`/statuses/${statusId}`, {
+  return await api(`/proposals/statuses/${statusId}`, {
     method: 'PUT',
     body: status,
   });
 };
 
 export const deleteStatus = async (statusId: number): Promise<void> => {
-  await api(`/statuses/${statusId}`, {
+  await api(`/proposals/statuses/${statusId}`, {
     method: 'DELETE',
   });
 };

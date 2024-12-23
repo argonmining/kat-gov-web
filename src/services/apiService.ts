@@ -126,22 +126,14 @@ export const updateProposalById = async (id: number, data: ProposalUpdate) => {
   const validUpdateFields = {
     title: data.title,
     description: data.description,
-    reviewed: data.reviewed,
-    approved: data.approved,
-    passed: data.passed,
-    votesActive: data.votesActive,
-    status: data.status
+    body: data.body,
+    type: data.type,
+    status: data.status,
   };
 
   return await api(`/proposals/${id}`, {
     method: 'PUT',
     body: validUpdateFields,
-  });
-};
-
-export const getProposalSubmitFee = async (proposalId: number): Promise<{ fee: number; wallet: string }> => {
-  return await api(`/qualifyProposal/${proposalId}`, {
-    method: 'POST',
   });
 };
 

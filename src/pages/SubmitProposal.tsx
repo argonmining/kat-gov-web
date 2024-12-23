@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { createDraftProposal, getProposalById, updateProposalById, getProposalSubmitFee, getProposalTypes } from '../services/apiService';
+import { createDraftProposal, getProposalById, updateProposalById, getProposalNominationFee, getProposalTypes } from '../services/apiService';
 import { ProposalType } from '../types';
 import MarkdownEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
@@ -49,10 +49,14 @@ const SubmitProposal: React.FC = () => {
         setType('DRAFT');
         setIsGenerated(true);
 
-        const feeResponse = await getProposalSubmitFee(proposalId);
-        setFee(feeResponse.fee);
+        const { fee } = await getProposalNominationFee();
+        setFee(fee);
 
-        await updateProposalById(proposalId, { status: 1 });
+        await updateProposalById(proposalId, { 
+          status: 1,
+          title: proposal.title,
+          description: proposal.description 
+        });
       } else {
         throw new Error('No proposal ID received from server');
       }
